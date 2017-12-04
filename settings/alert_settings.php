@@ -24,7 +24,7 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-$page = new admin_settingpage('theme_uogateen_colours', get_string('alert_settings', 'theme_uogateen'));
+$page = new admin_settingpage('theme_uogateen_alerts', get_string('alert_settings', 'theme_uogateen'));
 $page->add(new admin_setting_heading('theme_uogateen_alerts', get_string('alert_settingssub', 'theme_uogateen'),
     format_text(get_string('alertsdesc', 'theme_uogateen'), FORMAT_MARKDOWN)));
 

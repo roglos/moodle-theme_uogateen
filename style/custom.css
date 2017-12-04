@@ -1,0 +1,20 @@
+/* Hiding content presemester
+ * -------------------------- */
+.hiddenpresemester #region-main-box {display:none;}
+.hiddenpresemester.editing #region-main-box {display:block;}
+.showforsemester .contenthiddenmessage {display:none;}
+
+/* Marking on dashboard not currently supported - needs to wait for the
+ * reworking of the new dashboard block to determine how these are presented */
+#page-my-index.pagelayout-mydashboard .coursebox.hiddenpresemester {
+    opacity:0.4;
+    background:#e2e2e2;
+}
+#page-my-index.pagelayout-mydashboard .coursebox.hiddenpresemester:before {
+    font-size:85%;
+    font-weight:700;
+    color:#991401;
+    font-family:FontAwesome,'Open Sans','Arial';
+    content:'\f070  This content of this module is currently hidden until the relevant semester starts';
+}
+
