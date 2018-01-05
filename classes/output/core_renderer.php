@@ -375,6 +375,11 @@ class core_renderer extends \theme_boost\output\core_renderer {
                     $blocksmodalusersection .= $OUTPUT->studentblocksmodal();
                 }
             }
+            if ($region == 'side-slidertwo') {
+                $maintitle = 'Module Guide';
+                $subtitle = 'Development in progress';
+                $blocksmodalusersection .= $OUTPUT->moduleguidemodal();
+            }
         }
         $blockscontent = $OUTPUT->blocks($region);
 
@@ -654,6 +659,39 @@ class core_renderer extends \theme_boost\output\core_renderer {
             return '';
         }
     }
+
+    /**
+     * Context for Module Guide content on blocks modal popup mustache template.
+     * @copyright 2017 theme_uogateen Richard Oelmann https://moodle.org/user/profile.php?id=480148
+     * @package    theme_uogateen
+     *
+     * @return renderer context for displaying student user content.
+     */
+    public function moduleguidemodal() {
+        global $PAGE, $DB, $CFG, $OUTPUT, $COURSE;
+        // TODO: Check if module guide info exists.
+        if (ISSET($PAGE->course->id) && $PAGE->course->id > 1) {
+            $modulecode = substr($PAGE->course->shortname,0,6);
+            $moduleinsttitle = $PAGE->course->fullname;
+            $modguideinfo = $DB->get_record('block_modguideform', array('modulecode' => $modulecode));
+            $modintro = clean_text($modguideinfo->modintro);
+            $modaddinfo = $modguideinfo->modaddinfo;
+            $modresource = clean_text($modguideinfo->modreslist);
+
+            $moduleguidemodalcontext = [
+                'modulecode' => $modulecode,
+                'moduletitle' => $moduleinsttitle,
+                'modintro' => $modintro,
+                'modaddinfo' => $modaddinfo,
+                'modresource' => $modresource,
+            ];
+
+            return $this->render_from_template('theme_uogateen/moduleguidemodal', $moduleguidemodalcontext);
+        } else {
+            return '';
+        }
+    }
+
 
     /**
      * Render Editing link as a bootstrap style button with fontawesome icon.
