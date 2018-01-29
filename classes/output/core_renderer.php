@@ -358,8 +358,11 @@ class core_renderer extends \theme_boost\output\core_renderer {
     public function blocksmodal($region) {
         global $OUTPUT, $COURSE;
         $blocksmodalusersection = '';
+        $blockscontent = $OUTPUT->blocks($region);
+
         $maintitle = get_string('defaultmodaltitle', 'theme_uogateen');
         $subtitle = get_string('defaultmodaltitledesc', 'theme_uogateen');
+
         if (isloggedin() && ISSET($COURSE->id) && $COURSE->id > 1) {
             $course = $this->page->course;
             $context = context_course::instance($course->id);
@@ -369,19 +372,18 @@ class core_renderer extends \theme_boost\output\core_renderer {
                     $maintitle = get_string('staffmodal', 'theme_uogateen');
                     $subtitle = get_string('staffmodaldesc', 'theme_uogateen');
                     $blocksmodalusersection .= $OUTPUT->staffblocksmodal();
+
                 } else {
                     $maintitle = get_string('studentmodal', 'theme_uogateen');
                     $subtitle = get_string('studentmodaldesc', 'theme_uogateen');
                     $blocksmodalusersection .= $OUTPUT->studentblocksmodal();
                 }
-            }
-            if ($region == 'side-slidertwo') {
+            } elseif ($region == 'side-slidertwo') {
                 $maintitle = 'Module Guide';
                 $subtitle = 'Development in progress';
                 $blocksmodalusersection .= $OUTPUT->moduleguidemodal();
             }
         }
-        $blockscontent = $OUTPUT->blocks($region);
 
         $blocksmodalcontext = [
             'maintitle' => $maintitle,
@@ -682,6 +684,20 @@ class core_renderer extends \theme_boost\output\core_renderer {
                 'modulecode' => $modulecode,
                 'moduletitle' => $moduleinsttitle,
                 'modintro' => $modintro,
+                'modval_school' => 'modvalschool',
+                'modval_catpoints' => 'modvalpoints',
+                'modval_level' => 'modvallevel',
+                'modval_prerequ' => 'modvalprerequ',
+                'modval_corequ' => 'modvalcorequ',
+                'modval_restrictions' => 'modvalrestrictions',
+                'modval_desc' => 'modvaldescription',
+                'modval_syll' => 'modvalindicativesyllabus',
+                'modval_lo' => 'modvallearningoutcomes',
+                'modval_activities' => 'modvallearningandteaching',
+                'modval_assessments' => 'modvalassessments',
+                'modval_specass' => 'modvalspecialassessmentrequirements',
+                'modval_resources' => 'modvalindicativeresources',
+                'modstructure' => 'modulestructuregoeshere',
                 'modaddinfo' => $modaddinfo,
                 'modresource' => $modresource,
             ];

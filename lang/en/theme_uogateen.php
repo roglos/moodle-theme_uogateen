@@ -172,6 +172,10 @@ $string['studentlinkurldesc'] = '';
 $string['studentlinkicon'] = 'Student link FA icon name';
 $string['studentlinkicondesc'] = '';
 
+// External Database settings.
+$string['extdb_settings'] = 'External Database settings';
+$string['extdbdesc'] = 'Settings page for links to external integrations database';
+
 // Modal sliders.
 $string['defaultmodaltitle'] = 'Side-Blocks page';
 $string['defaultmodaltitledesc'] = 'These side-block pages can be used to add blocks off the main course page, but still easily available. Staff and Students also have a dedicated course details tab.';

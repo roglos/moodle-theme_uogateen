@@ -42,6 +42,7 @@
             "favicon": "favicon.ico",
             "main_content": "<h1>Headings make html validators happier</h1>"
          },
+        "modintro": "Module introduction from guide page goes here",
         "bodyattributes":"",
         "sidepreblocks": "<h2>Blocks html goes here</h2>",
         "sidetopblocks": "<h2>Blocks html goes here</h2>",
@@ -99,6 +100,23 @@
                         <div class="region_main_settings_menu_proxy"></div>
                     {{/hasregionmainsettingsmenu}}
                     {{{ output.course_content_header }}}
+                    {{#modintro}}
+                        <div class="card-block">
+                            <div class="row">
+                                <div class="mg-intro col-md-12">
+                                    <div class="card">
+                                        <div class="card-header card-default">
+                                            <h3 class="card-title">Module Introduction</h3>
+                                        </div>
+                                        <div class = "card-block">
+                                            {{{modintro}}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {{/modintro}}
+
                     {{{ output.main_content }}}
                     {{{ output.course_content_footer }}}
                     </div>
@@ -112,11 +130,9 @@
                 <section data-region="blocks-column" class="hidden-print modal fade" id="slider1_blocksmodal" aria-labelledby="blockslider1modal">
                     {{{ blocksslider1 }}}
                 </section>
-                {{#hasblocksslider2}}
                 <section data-region="blocks-column" class="hidden-print modal fade" id="slider2_blocksmodal" aria-labelledby="blockslider2modal">
                     {{{ blocksslider2 }}}
                 </section>
-                {{/hasblocksslider2}}
                 {{#hasblocksslider3}}
                 <section data-region="blocks-column" class="hidden-print modal fade" id="slider3_blocksmodal" aria-labelledby="blockslider3modal">
                     {{{ blocksslider3 }}}

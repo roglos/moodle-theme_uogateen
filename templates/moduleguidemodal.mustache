@@ -31,30 +31,162 @@
 <div class="modalcards moduleguidemodal">
 {{#modulecode}}
     <div class="card">
-        <div class="card-header card-primary">
+        <div class="card-header card-warning">
             <h3 class="card-title">
                 {{{modulecode}}}
-            </h3>
-        </div>
-        <div class="card-block">
                 {{#moduletitle}}
                     {{{moduletitle}}}
                 {{/moduletitle}}
+            </h3>
+        </div>
+        <div class="card-block">
+            <div class="row">
                 {{#modintro}}
-                    {{{modintro}}}
+                    <div class="mg-intro col-md-12">
+                    <div class="card">
+                        <div class="card-header card-default">
+                            <h3 class="card-title">Module Introduction</h3>
+                        </div>
+                        <div class = "card-block">
+                            {{{modintro}}}
+                        </div>
+                    </div>
+                    </div>
                 {{/modintro}}
+            </div>
+            <div class="row">
+                {{#modval_level}}
+                    <div class="mg-validated col-md-8">
+                    <div class="card ">
+                        <div class="card-header card-default">
+                            <h3 class="card-title">Validated Details</h3>
+                        </div>
+                        <div class = "card-block">
+                            <div class="row">
+                                <h4 class="valtitle col-md-3">Module Title:</h4>
+                                <p class="valdetail col-md-9">{{{moduletitle}}}</p>
+                                <h3 class="text-alert">May not be needed - in heading anyway</h3>
+                            </div>
+                            <div class="row">
+                                <h4 class="valtitle col-md-3">Module Code:</h4>
+                                <p class="valdetail col-md-9">{{{modulecode}}}</p>
+                                <h3 class="text-alert">May not be needed - in heading anyway</h3>
+                            </div>
+                            <div class="row">
+                                <h4 class="valtitle col-md-3">School:</h4>
+                                <p class="valdetail col-md-9">{{{modval_school}}}</p>
+                            </div>
+                            <div class="row">
+                                <h4 class="valtitle col-md-3">CAT points:</h4>
+                                <p class="valdetail col-md-9">{{{modval_catpoints}}}</p>
+                            </div>
+                            <div class="row">
+                                <h4 class="valtitle col-md-3">Level of Study:</h4>
+                                <p class="valdetail col-md-9">{{{modval_level}}}</p>
+                            </div>
+                            <div class="row">
+                                <h4 class="valtitle col-md-3">Pre-Requisites:</h4>
+                                <p class="valdetail col-md-9">{{{modval_prerequ}}}</p>
+                            </div>
+                            <div class="row">
+                                <h4 class="valtitle col-md-3">Co-Requisites:</h4>
+                                <p class="valdetail col-md-9">{{{modval_corequ}}}</p>
+                            </div>
+                            <div class="row">
+                                <h4 class="valtitle col-md-3">Restrictions:</h4>
+                                <p class="valdetail col-md-9">{{{modval_restrictions}}}</p>
+                            </div>
+                            <div class="row">
+                                <h4 class="valtitle col-md-3">Brief Description:</h4>
+                                <p class="valdetail col-md-9">{{{modval_desc}}}</p>
+                            </div>
+                            <div class="row">
+                                <h4 class="valtitle col-md-3">Indicative Syllabus:</h4>
+                                <p class="valdetail col-md-9">{{{modval_syll}}}</p>
+                            </div>
+                            <div class="row">
+                                <h4 class="valtitle col-md-3">Learning Outcomes:</h4>
+                                <p class="valdetail col-md-9">{{{modval_lo}}}</p>
+                            </div>
+                            <div class="row">
+                                <h4 class="valtitle col-md-3">Learning and Teaching Activities:</h4>
+                                <p class="valdetail col-md-9">{{{modval_activities}}}</p>
+                            </div>
+                            <div class="row">
+                                <h4 class="valtitle col-md-3">Assessments:</h4>
+                                <p class="valdetail col-md-9">{{{modval_assessments}}}</p>
+                                <h3 class="text-alert">May not be needed - separate assessment section</h3>
+                            </div>
+                            <div class="row">
+                                <h4 class="valtitle col-md-3">Special Assessment Requirements:</h4>
+                                <p class="valdetail col-md-9">{{{modval_specass}}}</p>
+                                <h3 class="text-alert">May not be needed - separate assessment section</h3>
+                            </div>
+                            <div class="row">
+                                <h4 class="valtitle col-md-3">Indicative Resources:</h4>
+                                <p class="valdetail col-md-9">{{{modval_resources}}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                {{/modval_level}}
+                {{#modstructure}}
+                    <div class="mg-structure col-md-4">
+                    <div class="card">
+                        <div class="card-header card-default">
+                            <h3 class="card-title">Module Structure</h3>
+                        </div>
+                        <div class = "card-block">
+                            <p>module structure will be pulled here from front page of module</p>
+                        </div>
+                    </div>
+                    </div>
+                {{/modstructure}}
+            </div>
+            <div class = "row">
+                {{#modassessments}}
+                    <div class="mg-assessment col-md-12">
+                    <div class="card">
+                        <div class="card-header card-default">
+                            <h3 class="card-title">Module Assessment</h3>
+                        </div>
+                        <div class = "card-block">
+                            <p>module assessment will be pulled here </p>
+                        </div>
+                    </div>
+                    </div>
+                {{/modassessments}}
+            </div>
+            <div class = "row">
                 {{#modaddinfo}}
-                    {{{modaddinfo}}}
+                    <div class="mg-addinfo col-md-12">
+                    <div class="card">
+                        <div class="card-header card-default">
+                            <h3 class="card-title">Module Additional Information</h3>
+                        </div>
+                        <div class = "card-block">
+                            {{{modaddinfo}}}
+                        </div>
+                    </div>
+                    </div>
                 {{/modaddinfo}}
+            </div>
+            <div class = "row">
                 {{#modresource}}
-                    {{{modresource}}}
+                    <div class="mg-resources col-md-12">
+                    <div class="card">
+                        <div class="card-header card-default">
+                            <h3 class="card-title">Module Resources</h3>
+                        </div>
+                        <div class = "card-block">
+                            {{{modresource}}}
+                        </div>
+                    </div>
+                    </div>
                 {{/modresource}}
-
-
+            </div>
         </div>
     </div>
 {{/modulecode}}
 </div>
-<div class="alert alert-info" style="clear: both; width: 100%;">
-    <p>You can also add blocks below here, by setting the location in each block configuration page. Drag and Drop is not available as this page does not appear on the main course page to allow the blocks to be dragged.</p>
-</div>
+

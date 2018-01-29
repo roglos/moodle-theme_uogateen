@@ -15,21 +15,19 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version file.
+ * External Database settings page file.
  *
  * @package    theme_uogateen
  * @copyright  2016 Richard Oelmann
  * @copyright  theme_boost - MoodleHQ
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2017110101;
-$plugin->release  = 'v3.4.0.2';
-$plugin->maturity  = MATURITY_STABLE;
-$plugin->requires  = 2017042800;
-$plugin->component = 'theme_uogateen';
-$plugin->dependencies = array(
-    'theme_boost'  => 2016120500,
-);
+$page = new admin_settingpage('theme_uogateen_extdb', get_string('extdb_settings', 'theme_uogateen'));
+$page->add(new admin_setting_heading('theme_uogateen_extdb', get_string('extdb_settings', 'theme_uogateen'),
+    format_text(get_string('extdbdesc', 'theme_uogateen'), FORMAT_MARKDOWN)));
+
+
+// Must add the page after definiting all the settings!
+$settings->add($page);
