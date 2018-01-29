@@ -30,6 +30,8 @@ Richard
 
 CHANGELOG
 ---------
+3.4.1.0         Add in semester based hide/reveal from glostest theme
+                Begin development of module guide pop-up page
 3.4.0.0         Secure url settings with PARAM_URL
                 Adapt links for new user/participant page
 3.3.1.1         Bug fixes - progress radial

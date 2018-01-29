@@ -25,8 +25,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2017110101;
-$plugin->release  = 'v3.4.0.2';
+$plugin->version   = 2018012900;
+$plugin->release  = 'v3.4.1.0';
 $plugin->maturity  = MATURITY_STABLE;
 $plugin->requires  = 2017042800;
 $plugin->component = 'theme_uogateen';
