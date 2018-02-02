@@ -31,7 +31,7 @@
 <div class="modalcards moduleguidemodal">
 {{#modulecode}}
     <div class="card">
-        <div class="card-header card-warning">
+        <div class="card-header card-warning bg-warning">
             <h3 class="card-title">
                 {{{modulecode}}}
                 {{#moduletitle}}
@@ -44,7 +44,7 @@
                 {{#modintro}}
                     <div class="mg-intro col-md-12">
                     <div class="card">
-                        <div class="card-header card-default">
+                        <div class="card-header card-default bg-primary">
                             <h3 class="card-title">Module Introduction</h3>
                         </div>
                         <div class = "card-block">
@@ -58,7 +58,7 @@
                 {{#modval_level}}
                     <div class="mg-validated col-md-8">
                     <div class="card ">
-                        <div class="card-header card-default">
+                        <div class="card-header card-default bg-primary">
                             <h3 class="card-title">Validated Details</h3>
                         </div>
                         <div class = "card-block">
@@ -133,11 +133,11 @@
                 {{#modstructure}}
                     <div class="mg-structure col-md-4">
                     <div class="card">
-                        <div class="card-header card-default">
-                            <h3 class="card-title">Module Structure</h3>
+                        <div class="card-header card-default  bg-primary">
+                            <h3 class="card-title">Module Content</h3>
                         </div>
                         <div class = "card-block">
-                            <p>module structure will be pulled here from front page of module</p>
+                            {{#modstructurecontent}} {{{modstructurecontent}}} {{/modstructurecontent}}
                         </div>
                     </div>
                     </div>
@@ -147,11 +147,11 @@
                 {{#modassessments}}
                     <div class="mg-assessment col-md-12">
                     <div class="card">
-                        <div class="card-header card-default">
+                        <div class="card-header card-default bg-primary">
                             <h3 class="card-title">Module Assessment</h3>
                         </div>
                         <div class = "card-block">
-                            <p>module assessment will be pulled here </p>
+                                {{{modassessments}}}
                         </div>
                     </div>
                     </div>
@@ -161,7 +161,7 @@
                 {{#modaddinfo}}
                     <div class="mg-addinfo col-md-12">
                     <div class="card">
-                        <div class="card-header card-default">
+                        <div class="card-header card-default bg-primary">
                             <h3 class="card-title">Module Additional Information</h3>
                         </div>
                         <div class = "card-block">
@@ -175,7 +175,7 @@
                 {{#modresource}}
                     <div class="mg-resources col-md-12">
                     <div class="card">
-                        <div class="card-header card-default">
+                        <div class="card-header card-default bg-primary">
                             <h3 class="card-title">Module Resources</h3>
                         </div>
                         <div class = "card-block">

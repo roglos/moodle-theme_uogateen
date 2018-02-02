@@ -23,7 +23,7 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
-global $PAGE, $DB;
+global $PAGE, $DB, $COURSE;
 
 user_preference_allow_ajax_update('drawer-open-nav', PARAM_ALPHA);
 require_once($CFG->libdir . '/behat/lib.php');
@@ -72,9 +72,13 @@ $hassliderfourblocks = strpos($blocksslider4html, 'data-block=') !== false;
 $regionmainsettingsmenu = $OUTPUT->region_main_settings_menu();
 
 $modulecode = substr($PAGE->course->shortname,0,6);
-$modguideinfo = $DB->get_record('block_modguideform', array('modulecode' => $modulecode));
-$modintro = clean_text($modguideinfo->modintro);
-
+$modintro = '';
+if ($DB->record_exists('block_modguideform', array('modulecode' => $modulecode))) {
+    $modguideinfo = $DB->get_record('block_modguideform', array('modulecode' => $modulecode));
+    if ($modguideinfo->modintro) {
+        $modintro = clean_text($modguideinfo->modintro);
+    }
+}
 $templatecontext = [
     'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), "escape" => false]),
     'output' => $OUTPUT,

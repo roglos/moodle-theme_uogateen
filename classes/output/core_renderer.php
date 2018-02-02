@@ -320,7 +320,7 @@ class core_renderer extends \theme_boost\output\core_renderer {
         $blocksslider3html = $OUTPUT->blocksmodal('side-sliderthree');
         $blocksslider4html = $OUTPUT->blocksmodal('side-sliderfour');
 
-        $hasslidertwoblocks = strpos($blocksslider2html, 'data-block=') !== false;
+        $hasslidertwoblocks = true;
         $hassliderthreeblocks = strpos($blocksslider3html, 'data-block=') !== false;
         $hassliderfourblocks = strpos($blocksslider4html, 'data-block=') !== false;
 
@@ -663,6 +663,173 @@ class core_renderer extends \theme_boost\output\core_renderer {
     }
 
     /**
+     * OUTPUT for module guides - module contents.
+     * @copyright 2018 theme_uogateen Richard Oelmann https://moodle.org/user/profile.php?id=480148
+     * @package    theme_uogateen
+     *
+     * @return html $content of module structure.
+     */
+    public function moduleguidestructure($cid) {
+        global $DB, $COURSE;
+        $course = $DB->get_record('course', array('id' => $cid));
+        $courseformat = course_get_format($course);
+        $mods = get_fast_modinfo($course);
+        $numsections = course_get_format($course)->get_last_section_number();
+
+        $sections = $mods->get_sections();
+
+        $secinfo = array();
+        $totsec = 0;
+        foreach ($mods->get_section_info_all() as $section => $thissection) {
+            $name = get_section_name($course, $thissection);
+            $secinfo[$thissection->section]['id'] = $thissection->id;
+            $secinfo[$thissection->section]['section'] = $thissection->section;
+            if ($name !== '' || !is_null($name)) {
+                $secinfo[$thissection->section]['title'] = $name;
+            } else {
+                $secinfo[$thissection->section]['title'] = get_string('defaultsectiontitle', 'theme_uogateen').' '.$thissection->section;
+            }
+            $secinfo[$thissection->section]['summary'] = $thissection->summary;
+            $secinfo[$thissection->section]['visible'] = $thissection->visible;
+
+            $totsec = $totsec+1;
+        }
+
+        // Whitelist titles for sections not included in Mod Guide.
+        $notshown = explode(',', get_string('titlesnotdisplayed', 'theme_uogateen'));
+
+        $content = '';
+
+        for ($i = 0; $i <= $numsections; $i++) {
+            $name = $secinfo[$i]['title'];
+            foreach ($notshown as $ns) {
+                if (strpos($name, $ns) !== false) {
+                    $secinfo[$i]['visible'] = 0;
+                }
+            }
+            if ($secinfo[$i]['visible'] == 1) {
+                $sectionurl = new moodle_url('/course/view.php', array('id' => $course->id, 'section' => $secinfo[$i]['section']));
+                $id = $secinfo[$i]['section'];
+                $title = $secinfo[$i]['title'];
+                $summary = $secinfo[$i]['summary'];
+                $content .= "<a href = '".$sectionurl."' alt = 'Section link - ".$title."' >";
+                $content .= '<h4>'.$title.'</h4>';
+                $content .= '</a>';
+                $content .= $summary;
+            }
+        }
+
+        return $content;
+    }
+
+    /**
+     * OUTPUT for module guides - module contents.
+     * @copyright 2018 theme_uogateen Richard Oelmann https://moodle.org/user/profile.php?id=480148
+     * @package    theme_uogateen
+     *
+     * @return html $content of module structure.
+     */
+    public function moduleguideassesments() {
+        global $DB, $COURSE;
+
+        $externaldbtype = get_string('externaldbtype', 'theme_uogateen');
+        $externaldbhost = get_string('externaldbhost', 'theme_uogateen');
+        $externaldbname = get_string('externaldbname', 'theme_uogateen');
+        $externaldbencoding = get_string('externaldbencoding', 'theme_uogateen');
+        $externaldbsetupsql = get_string('externaldbsetupsql', 'theme_uogateen');
+        $externaldbsybasequoting = get_string('externaldbsybasequoting', 'theme_uogateen');
+        $externaldbdebugdb = get_string('externaldbdebugdb', 'theme_uogateen');
+        $externaldbuser = get_string('externaldbuser', 'theme_uogateen');
+        $externaldbpassword = get_string('externaldbpassword', 'theme_uogateen');
+        $sourcetable_assessments = get_string('sourcetable_assessments', 'theme_uogateen');
+
+        // Check connection and label Db/Table in cron output for debugging if required.
+        if (!$externaldbtype) {
+            echo 'Database not defined.<br>';
+            return 0;
+        } else {
+//            echo 'Database: ' . $externaldbtype . '<br>';
+        }
+        if (!$sourcetable_assessments) {
+            echo 'Table not defined.<br>';
+            return 0;
+        } else {
+//            echo 'Table: ' . $sourcetable . '<br>';
+        }
+//        echo 'Starting connection...<br>';
+        // Report connection error if occurs.
+        if (!$extdb = $this->db_init($externaldbtype, $externaldbhost, $externaldbuser, $externaldbpassword, $externaldbname)) {
+            echo 'Error while communicating with external database <br>';
+            return 1;
+        }
+        // Get external table name.
+        $course = $DB->get_record('course', array('id' => $COURSE->id));
+        $assessments = array();
+        if ($course->idnumber) {
+            $sql = 'SELECT * FROM ' . $sourcetable_assessments . ' WHERE mav_idnumber LIKE "%' . $course->idnumber . '%"';
+            if ($rs = $extdb->Execute($sql)) {
+                if (!$rs->EOF) {
+                    while ($assess = $rs->FetchRow()) {
+                        $assess = array_change_key_case($assess, CASE_LOWER);
+//                        $assess = $this->db_decode($externaldbencoding, $assess);
+                        $assessments[] = $assess;
+                    }
+                }
+                $rs->Close();
+            } else {
+                // Report error if required.
+                $extdb->Close();
+                echo 'Error reading data from the external course table<br>';
+                return 4;
+            }
+        }
+        $output = '';
+        if (count($assessments) == 0 ) {
+            $output .= 'There are no assessments currently recorded for this module instance.';
+        }
+        $output .= '<div class="assesslist">';
+        foreach ($assessments as $a) {
+            $idcode = $a['assessment_idcode'];
+            $where = "m.idnumber = '".$idcode."' AND m.idnumber != '' AND mo.name = 'assign'";
+            $sql = 'SELECT a.id as id,m.id as cm, m.idnumber as
+                linkcode,a.duedate,a.gradingduedate, a.name as name, a.intro as brief FROM {course_modules} m
+                    JOIN {assign} a ON m.instance = a.id
+                    JOIN {modules} mo ON m.module = mo.id
+                WHERE '.$where;
+            $mdl_assess = $DB->get_record_sql($sql);
+            $name = $a['assessment_name'];
+            $brief = $duedate = '';
+            if (isset($mdl_assess->name) && strlen($mdl_assess->name) >0 ) { $name = $mdl_assess->name;}
+            if (isset ($mdl_assess->brief) && strlen($mdl_assess->brief) >0 ) {
+                $brief = $mdl_assess->brief;
+            } else {
+                $brief = '<span class="text-danger">This assignment is not yet linked between SITS and Moodle.</span>';
+            }
+            if (isset ($mdl_assess->duedate) && $mdl_assess->duedate > 0 ) {$duedate = date('Y-m-d H:m', $mdl_assess->duedate);}
+            if (isset($mdl_assess->id)) {
+                $url = new moodle_url('/mod/assign/view.php', array('id'=>$mdl_assess->id));
+            } else {
+                $url = '#';
+            }
+            $output .= '<div class="assess card card-default bg-light" style="background:#f2f2f2;">';
+            $output .= '<h4><a href = '.$url.'>'.$name.'</a></h4>';
+            $output .= '<h5>Due Date:  '.$duedate.'</h5>';
+            $output .= '<p><span class="small">Note - this is the standard due date for the assignment. If you have an individual extension, that will be reflected on the assignment page itself.</span></p>';
+            $output .= '<p><strong>Number: </strong>'.$a['assessment_number'].'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Weighting: </strong>'.$a['assessment_weight'].'%<br />';
+            $output .= '<strong>Type: </strong>'.$a['assessment_type'].'<br />';
+            $output .= $brief;
+            $output .= '</div>';
+        }
+        $output .= '<div class=" bg-warning assesslinks">';
+        $output .= '<h4>Useful Links</h4>';
+        $output .= '<a href="#" alt="Academic Regulations">Academic Regulations</a>';
+        $output .= '</div>';
+        $output .='</div>';
+
+        return $output;
+    }
+
+    /**
      * Context for Module Guide content on blocks modal popup mustache template.
      * @copyright 2017 theme_uogateen Richard Oelmann https://moodle.org/user/profile.php?id=480148
      * @package    theme_uogateen
@@ -671,14 +838,25 @@ class core_renderer extends \theme_boost\output\core_renderer {
      */
     public function moduleguidemodal() {
         global $PAGE, $DB, $CFG, $OUTPUT, $COURSE;
+        $modintro = $modaddinfo = $modresource = '';
         // TODO: Check if module guide info exists.
         if (ISSET($PAGE->course->id) && $PAGE->course->id > 1) {
             $modulecode = substr($PAGE->course->shortname,0,6);
             $moduleinsttitle = $PAGE->course->fullname;
-            $modguideinfo = $DB->get_record('block_modguideform', array('modulecode' => $modulecode));
-            $modintro = clean_text($modguideinfo->modintro);
-            $modaddinfo = $modguideinfo->modaddinfo;
-            $modresource = clean_text($modguideinfo->modreslist);
+            if ($DB->record_exists('block_modguideform', array('modulecode' => $modulecode))) {
+                $modguideinfo = $DB->get_record('block_modguideform', array('modulecode' => $modulecode));
+                if ($modguideinfo->modintro) {
+                    $modintro = clean_text($modguideinfo->modintro);
+                }
+                if ($modguideinfo->modaddinfo) {
+                    $modaddinfo = $modguideinfo->modaddinfo;
+                }
+                if ($modguideinfo->modreslist){
+                    $modresource = clean_text($modguideinfo->modreslist);
+                }
+            }
+            $modstructure1 = $OUTPUT->moduleguidestructure($PAGE->course->id);
+            $modassess = $OUTPUT->moduleguideassesments();
 
             $moduleguidemodalcontext = [
                 'modulecode' => $modulecode,
@@ -699,7 +877,9 @@ class core_renderer extends \theme_boost\output\core_renderer {
                 'modval_resources' => 'modvalindicativeresources',
                 'modstructure' => 'modulestructuregoeshere',
                 'modaddinfo' => $modaddinfo,
+                'modassessments' => $modassess,
                 'modresource' => $modresource,
+                'modstructurecontent' => $modstructure1,
             ];
 
             return $this->render_from_template('theme_uogateen/moduleguidemodal', $moduleguidemodalcontext);
@@ -797,4 +977,154 @@ class core_renderer extends \theme_boost\output\core_renderer {
 
     }
 
+
+    /* Db functions cloned from enrol/db plugin.
+     * ========================================= */
+    /**
+     * Tries to make connection to the external database.
+     *
+     * @return null|ADONewConnection
+     */
+    public function db_init($externaldbtype, $externaldbhost, $externaldbuser, $externaldbpassword, $externaldbname, $externaldbdebugdb=false, $externaldbsetupsql='') {
+        global $CFG;
+        require_once($CFG->libdir.'/adodb/adodb.inc.php');
+        // Connect to the external database (forcing new connection).
+        $extdb = ADONewConnection($externaldbtype);
+        if ($externaldbdebugdb) {
+            $extdb->debug = true;
+            ob_start(); // Start output buffer to allow later use of the page headers.
+        }
+        // The dbtype my contain the new connection URL, so make sure we are not connected yet.
+        if (!$extdb->IsConnected()) {
+            $result = $extdb->Connect($externaldbhost,
+                $externaldbuser,
+                $externaldbpassword,
+                $externaldbname, true);
+            if (!$result) {
+                return null;
+            }
+        }
+        $extdb->SetFetchMode(ADODB_FETCH_ASSOC);
+        if ($externaldbsetupsql) {
+            $extdb->Execute($externaldbsetupsql);
+        }
+        return $extdb;
+    }
+    public function db_encode($text) {
+        $dbenc = $externaldbencoding;
+        if (empty($dbenc) or $dbenc == 'utf-8') {
+            return $text;
+        }
+        if (is_array($text)) {
+            foreach ($text as $k => $value) {
+                $text[$k] = $this->db_encode($value);
+            }
+            return $text;
+        } else {
+            return core_text::convert($text, 'utf-8', $dbenc);
+        }
+    }
+    public function db_get_sql($table, array $conditions, array $fields, $distinct = false, $sort = "") {
+        $fields = $fields ? implode(',', $fields) : "*";
+        $where = array();
+        if ($conditions) {
+            foreach ($conditions as $key => $value) {
+                $value = $this->db_encode($this->db_addslashes($value));
+
+                $where[] = "$key = '$value'";
+            }
+        }
+        $where = $where ? "WHERE ".implode(" AND ", $where) : "";
+        $sort = $sort ? "ORDER BY $sort" : "";
+        $distinct = $distinct ? "DISTINCT" : "";
+        $sql = "SELECT $distinct $fields
+                  FROM $table
+                 $where
+                  $sort";
+        return $sql;
+    }
+    /**
+     * Returns plugin config value
+     * @param  string $name
+     * @param  string $default value if config does not exist yet
+     * @return string value or default
+     */
+/*    public function get_config($name, $default = null) {
+        $this->load_config();
+        return isset($this->config->$name) ? $this->config->$name : $default;
+    } */
+
+    /**
+     * Sets plugin config value
+     * @param  string $name name of config
+     * @param  string $value string config value, null means delete
+     * @return string value
+     */
+    public function set_config($name, $value) {
+        $pluginname = $this->get_name();
+        $this->load_config();
+        if ($value === null) {
+            unset($this->config->$name);
+        } else {
+            $this->config->$name = $value;
+        }
+        set_config($name, $value, "local_$pluginname");
+    }
+
+    /**
+     * Makes sure config is loaded and cached.
+     * @return void
+     */
+/*    public function load_config() {
+        if (!isset($this->config)) {
+            $name = $this->get_name();
+            $this->config = get_config("local_$name");
+        }
+    }
+*/
+    public function db_get_sql_like($table2, array $conditions, array $fields, $distinct = false, $sort = "") {
+        $fields = $fields ? implode(',', $fields) : "*";
+        $where = array();
+        if ($conditions) {
+            foreach ($conditions as $key => $value) {
+                $value = $this->db_encode($this->db_addslashes($value));
+
+                $where[] = "$key LIKE '%$value%'";
+            }
+        }
+        $where = $where ? "WHERE ".implode(" AND ", $where) : "";
+        $sort = $sort ? "ORDER BY $sort" : "";
+        $distinct = $distinct ? "DISTINCT" : "";
+        $sql2 = "SELECT $distinct $fields
+                  FROM $table2
+                 $where
+                  $sort";
+        return $sql2;
+    }
+
+    public function db_decode($text) {
+        $externaldbencoding = get_string('externaldbencoding', 'theme_uogateen');
+
+        $dbenc = $externaldbencoding;
+        if (empty($dbenc) or $dbenc == 'utf-8') {
+            return $text;
+        }
+        if (is_array($text)) {
+            foreach ($text as $k => $value) {
+                $text[$k] = $this->db_decode($value);
+            }
+            return $text;
+        } else {
+            return core_text::convert($text, $dbenc, 'utf-8');
+        }
+    }
+    public function db_addslashes($externaldbsybasequoting, $text) {
+        // Use custom made function for now - it is better to not rely on adodb or php defaults.
+        if ($externaldbsybasequoting) {
+            $text = str_replace('\\', '\\\\', $text);
+            $text = str_replace(array('\'', '"', "\0"), array('\\\'', '\\"', '\\0'), $text);
+        } else {
+            $text = str_replace("'", "''", $text);
+        }
+    }
 }

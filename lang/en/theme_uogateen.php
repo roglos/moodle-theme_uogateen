@@ -215,3 +215,19 @@ $string['recyclebin'] = 'Recycle Bin';
 $string['modalstudentlinks'] = 'Course links';
 $string['courseinfo'] = 'Course information';
 $string['coursestaff'] = 'Course Staff';
+
+// Module guide.
+$string['defaultsectiontitle'] = 'Topic';
+$string['titlesnotdisplayed'] = 'Additional Information,Additional Info,Richard Test';
+
+// External database connection strings.
+$string['externaldbtype'] = 'mysqli';
+$string['externaldbhost'] = 'localhost';
+$string['externaldbname'] = 'integrations';
+$string['externaldbencoding'] = 'utf-8';
+$string['externaldbsetupsql'] = '';
+$string['externaldbsybasequoting'] = '';
+$string['externaldbdebugdb'] = '';
+$string['externaldbuser'] = 'xxxxx';
+$string['externaldbpassword'] = 'xxxxx';
+$string['sourcetable_assessments'] = 'usr_data_assessments';
