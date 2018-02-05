@@ -219,6 +219,28 @@ $string['coursestaff'] = 'Course Staff';
 // Module guide.
 $string['defaultsectiontitle'] = 'Topic';
 $string['titlesnotdisplayed'] = 'Additional Information,Additional Info,Richard Test';
+$string['modintrosection'] = 'Module Introduction';
+$string['valtitle'] = 'Module Title';
+$string['valmc'] = 'Module Code';
+$string['valyear'] = 'Academic Year';
+$string['valschool'] = 'School';
+$string['vallevel'] = 'Level';
+$string['valcat'] = 'CAT points';
+$string['valpre'] = 'Pre-Requisites';
+$string['valco'] = 'Co-Requisites';
+$string['valrestrict'] = 'Restrictions';
+$string['valdesc'] = 'Brief Description';
+$string['valsyl'] = 'Indicative Syllabus';
+$string['vallo'] = 'Learning Outcomes';
+$string['vallt'] = 'Learning and Teaching Activities';
+$string['valspecass'] = 'Special Assessment Requirements';
+$string['valres'] = 'Module Resources';
+$string['validatedsectiontitle'] = 'Validated Details';
+$string['contentsectiontitle'] = 'Module Content Structure';
+$string['valassessments'] = 'Module Assessments';
+$string['modaddinfo'] = 'Additional Information';
+$string['assignmentnotlinked'] = 'This assignment is not yet linked between SITS and Moodle.';
+$string['stdduedate'] = 'Note - this is the standard due date for the assignment. If you have an individual extension, that will be reflected on the assignment page itself.';
 
 // External database connection strings.
 $string['externaldbtype'] = 'mysqli';
@@ -230,4 +252,6 @@ $string['externaldbsybasequoting'] = '';
 $string['externaldbdebugdb'] = '';
 $string['externaldbuser'] = 'xxxxx';
 $string['externaldbpassword'] = 'xxxxx';
-$string['sourcetable_assessments'] = 'usr_data_assessments';
+$string['sourcetableassessments'] = 'usr_data_assessments';
+$string['sourcetablevalidated'] = 'usr_guide_details';
+$string['modulemappingtable'] = 'usr_modulesite_mapping';

@@ -224,7 +224,6 @@ class core_renderer extends \theme_boost\output\core_renderer {
         $alertsuccess = '<span class="fa fa-2x fa-bullhorn"></span>';
         $context = context_system::instance();
 
-
         $enable1alert = (empty($PAGE->theme->settings->enable1alert)) ? false : $PAGE->theme->settings->enable1alert;
         $staffonly1alert = (empty($PAGE->theme->settings->staffonly1alert)) ? false : $PAGE->theme->settings->staffonly1alert;
         if ($staffonly1alert && !has_capability('moodle/course:viewhiddencourses', $context)) {
@@ -261,12 +260,8 @@ class core_renderer extends \theme_boost\output\core_renderer {
         $alert3content = '<div class="alertmessage">' . $$alert3icon . '<span class="title"> '
                 . $alert3heading . '</span>  ' . $alert3text .'</div>';
 
-
         $useralertcontext = [
-
-            // If any of the above social networks are true, sets this to true.
-            'hasuseralert' => true, //($enable1alert || $enable2alert || $enable3alert) ? true : false,
-
+            'hasuseralert' => true,
             'useralert' => array(
                 array(
                     'enablealert' => $enable1alert,
@@ -315,18 +310,29 @@ class core_renderer extends \theme_boost\output\core_renderer {
      * @return renderer context for displaying modal popup buttons.
      */
     public function blockmodalbuttons() {
-        global $OUTPUT, $PAGE;
+        global $OUTPUT, $PAGE, $COURSE;
         $blocksslider2html = $OUTPUT->blocksmodal('side-slidertwo');
         $blocksslider3html = $OUTPUT->blocksmodal('side-sliderthree');
         $blocksslider4html = $OUTPUT->blocksmodal('side-sliderfour');
+        if (strlen($COURSE->idnumber) > 0) {
 
-        $hasslidertwoblocks = true;
+/*        (strpos($COURSE->idnumber, 'CRS') != 0
+                                           || strpos($COURSE->idnumber, 'DOM') != 0
+                                           || strpos($COURSE->idnumber, 'SCH') != 0
+                                           || strpos($COURSE->idnumber, 'SUB') != 0
+                                           || strpos($COURSE->idnumber, 'HRCPD') != 0
+                                           || strpos($COURSE->idnumber, 'ADU') != 0
+                                           || strpos($COURSE->idnumber, 'LTI') != 0) ) {   */
+            $hasslidertwoblocks = true;
+        } else {
+            $hasslidertwoblocks = false;
+        }
         $hassliderthreeblocks = strpos($blocksslider3html, 'data-block=') !== false;
         $hassliderfourblocks = strpos($blocksslider4html, 'data-block=') !== false;
 
         $buttonshtml = '';
         $buttonshtml .= '<div class="blockmodalbuttons">';
-        if ($PAGE->pagelayout == 'course') {
+        if (strpos($PAGE->bodyclasses, 'pagelayout-course') > 0) {
             $buttonshtml .= '<button type="button" class="btn btn-warning pageblockbtn" data-toggle="modal"';
             $buttonshtml .= 'data-target="#slider1_blocksmodal"><i class="fa fa-2x fa-cog"></i></button>';
         }
@@ -378,9 +384,9 @@ class core_renderer extends \theme_boost\output\core_renderer {
                     $subtitle = get_string('studentmodaldesc', 'theme_uogateen');
                     $blocksmodalusersection .= $OUTPUT->studentblocksmodal();
                 }
-            } elseif ($region == 'side-slidertwo') {
+            } else if ($region == 'side-slidertwo') {
                 $maintitle = 'Module Guide';
-                $subtitle = 'Development in progress';
+                $subtitle = 'BETA Release for comment and feedback';
                 $blocksmodalusersection .= $OUTPUT->moduleguidemodal();
             }
         }
@@ -687,19 +693,19 @@ class core_renderer extends \theme_boost\output\core_renderer {
             if ($name !== '' || !is_null($name)) {
                 $secinfo[$thissection->section]['title'] = $name;
             } else {
-                $secinfo[$thissection->section]['title'] = get_string('defaultsectiontitle', 'theme_uogateen').' '.$thissection->section;
+                $secinfo[$thissection->section]['title'] = get_string('defaultsectiontitle',
+                    'theme_uogateen').' '.$thissection->section;
             }
             $secinfo[$thissection->section]['summary'] = $thissection->summary;
             $secinfo[$thissection->section]['visible'] = $thissection->visible;
 
-            $totsec = $totsec+1;
+            $totsec = $totsec + 1;
         }
 
         // Whitelist titles for sections not included in Mod Guide.
         $notshown = explode(',', get_string('titlesnotdisplayed', 'theme_uogateen'));
 
         $content = '';
-
         for ($i = 0; $i <= $numsections; $i++) {
             $name = $secinfo[$i]['title'];
             foreach ($notshown as $ns) {
@@ -729,6 +735,89 @@ class core_renderer extends \theme_boost\output\core_renderer {
      *
      * @return html $content of module structure.
      */
+    public function moduleguidevalidated() {
+        global $DB, $COURSE;
+
+        $externaldbtype = get_string('externaldbtype', 'theme_uogateen');
+        $externaldbhost = get_string('externaldbhost', 'theme_uogateen');
+        $externaldbname = get_string('externaldbname', 'theme_uogateen');
+        $externaldbencoding = get_string('externaldbencoding', 'theme_uogateen');
+        $externaldbsetupsql = get_string('externaldbsetupsql', 'theme_uogateen');
+        $externaldbsybasequoting = get_string('externaldbsybasequoting', 'theme_uogateen');
+        $externaldbdebugdb = get_string('externaldbdebugdb', 'theme_uogateen');
+        $externaldbuser = get_string('externaldbuser', 'theme_uogateen');
+        $externaldbpassword = get_string('externaldbpassword', 'theme_uogateen');
+        $sourcetablevalidated = get_string('sourcetablevalidated', 'theme_uogateen');
+        $sourcetablemapping = get_string('modulemappingtable', 'theme_uogateen');
+
+        // Check connection and label Db/Table in cron output for debugging if required.
+        if (!$externaldbtype) {
+            echo 'Database not defined.<br>';
+            return 0;
+        }
+        if (!$sourcetablevalidated) {
+            echo 'Table not defined.<br>';
+            return 0;
+        }
+        // Report connection error if occurs.
+        if (!$extdb = $this->db_init($externaldbtype, $externaldbhost, $externaldbuser, $externaldbpassword, $externaldbname)) {
+            echo 'Error while communicating with external database <br>';
+            return 1;
+        }
+        // Get external table name.
+        $course = $DB->get_record('course', array('id' => $COURSE->id));
+        $assessments = array();
+        $validated = array();
+        if ($course->idnumber) {
+            $sql = 'SELECT m.idnumber, v.objectid, v.objecttype, v.field, v.fieldname, v.value
+                FROM ' . $sourcetablevalidated . ' v
+                JOIN '. $sourcetablemapping .' m ON m.objectid = v.objectid
+                WHERE m.idnumber LIKE "%' . $course->idnumber . '%"';
+            if ($rs = $extdb->Execute($sql)) {
+                if (!$rs->EOF) {
+                    while ($val = $rs->FetchRow()) {
+                        $val = array_change_key_case($val, CASE_LOWER);
+                        $val = $this->db_decode($val);
+                        $validated[] = $val;
+                    }
+                }
+                $rs->Close();
+            } else {
+                // Report error if required.
+                $extdb->Close();
+                echo 'Error reading data from the external course tables<br>';
+                return 4;
+            }
+        }
+        if (count($validated) <= 0) {
+            return '';
+        }
+        foreach ($validated as $k => $v) {
+            $id = explode('_', $validated[$k]['idnumber']);
+            $n = count($id);
+            $validated[$k]['mc'] = $id[0];
+            $validated[$k]['yr'] = $id[$n - 1];
+        }
+        $valdet = array();
+        foreach ($validated as $k => $v) {
+            $valdet[$validated[$k]['idnumber']]['idnumber'] = $validated[$k]['idnumber'];
+            $valdet[$validated[$k]['idnumber']]['yr'] = $validated[$k]['yr'];
+            $valdet[$validated[$k]['idnumber']]['mc'] = $validated[$k]['mc'];
+            $valdet[$validated[$k]['idnumber']][$validated[$k]['field']] = $validated[$k]['value'];
+            if (substr($valdet[$validated[$k]['idnumber']][$validated[$k]['field']], 0, 3) == '<p>') {
+                ltrim($valdet[$validated[$k]['idnumber']][$validated[$k]['field']], '<p>');
+                rtrim($valdet[$validated[$k]['idnumber']][$validated[$k]['field']], '</p>');
+            }
+        }
+        return $valdet;
+    }
+    /**
+     * OUTPUT for module guides - module contents.
+     * @copyright 2018 theme_uogateen Richard Oelmann https://moodle.org/user/profile.php?id=480148
+     * @package    theme_uogateen
+     *
+     * @return html $content of module structure.
+     */
     public function moduleguideassesments() {
         global $DB, $COURSE;
 
@@ -741,22 +830,17 @@ class core_renderer extends \theme_boost\output\core_renderer {
         $externaldbdebugdb = get_string('externaldbdebugdb', 'theme_uogateen');
         $externaldbuser = get_string('externaldbuser', 'theme_uogateen');
         $externaldbpassword = get_string('externaldbpassword', 'theme_uogateen');
-        $sourcetable_assessments = get_string('sourcetable_assessments', 'theme_uogateen');
+        $sourcetableassessments = get_string('sourcetableassessments', 'theme_uogateen');
 
         // Check connection and label Db/Table in cron output for debugging if required.
         if (!$externaldbtype) {
             echo 'Database not defined.<br>';
             return 0;
-        } else {
-//            echo 'Database: ' . $externaldbtype . '<br>';
         }
-        if (!$sourcetable_assessments) {
+        if (!$sourcetableassessments) {
             echo 'Table not defined.<br>';
             return 0;
-        } else {
-//            echo 'Table: ' . $sourcetable . '<br>';
         }
-//        echo 'Starting connection...<br>';
         // Report connection error if occurs.
         if (!$extdb = $this->db_init($externaldbtype, $externaldbhost, $externaldbuser, $externaldbpassword, $externaldbname)) {
             echo 'Error while communicating with external database <br>';
@@ -766,12 +850,12 @@ class core_renderer extends \theme_boost\output\core_renderer {
         $course = $DB->get_record('course', array('id' => $COURSE->id));
         $assessments = array();
         if ($course->idnumber) {
-            $sql = 'SELECT * FROM ' . $sourcetable_assessments . ' WHERE mav_idnumber LIKE "%' . $course->idnumber . '%"';
+            $sql = 'SELECT * FROM ' . $sourcetableassessments . ' WHERE mav_idnumber LIKE "%' . $course->idnumber . '%"';
             if ($rs = $extdb->Execute($sql)) {
                 if (!$rs->EOF) {
                     while ($assess = $rs->FetchRow()) {
                         $assess = array_change_key_case($assess, CASE_LOWER);
-//                        $assess = $this->db_decode($externaldbencoding, $assess);
+                        $assess = $this->db_decode($assess);
                         $assessments[] = $assess;
                     }
                 }
@@ -796,26 +880,33 @@ class core_renderer extends \theme_boost\output\core_renderer {
                     JOIN {assign} a ON m.instance = a.id
                     JOIN {modules} mo ON m.module = mo.id
                 WHERE '.$where;
-            $mdl_assess = $DB->get_record_sql($sql);
+            $mdlassess = $DB->get_record_sql($sql);
             $name = $a['assessment_name'];
             $brief = $duedate = '';
-            if (isset($mdl_assess->name) && strlen($mdl_assess->name) >0 ) { $name = $mdl_assess->name;}
-            if (isset ($mdl_assess->brief) && strlen($mdl_assess->brief) >0 ) {
-                $brief = $mdl_assess->brief;
-            } else {
-                $brief = '<span class="text-danger">This assignment is not yet linked between SITS and Moodle.</span>';
+            if (isset($mdlassess->name) && strlen($mdlassess->name) > 0 ) {
+                $name = $mdlassess->name;
             }
-            if (isset ($mdl_assess->duedate) && $mdl_assess->duedate > 0 ) {$duedate = date('Y-m-d H:m', $mdl_assess->duedate);}
-            if (isset($mdl_assess->id)) {
-                $url = new moodle_url('/mod/assign/view.php', array('id'=>$mdl_assess->id));
+            if (isset ($mdlassess->brief) && strlen($mdlassess->brief) > 0 ) {
+                $brief = $mdlassess->brief;
+            } else {
+                $brief = '<span class="text-danger">'.get_string('assignmentnotlinked',
+                    'theme_uogateen').'</span>';
+            }
+            if (isset ($mdlassess->duedate) && $mdlassess->duedate > 0 ) {
+                $duedate = date('Y-m-d H:m', $mdlassess->duedate);
+            }
+            if (isset($mdlassess->id)) {
+                $url = new moodle_url('/mod/assign/view.php', array('id' => $mdlassess->id));
             } else {
                 $url = '#';
             }
             $output .= '<div class="assess card card-default bg-light" style="background:#f2f2f2;">';
             $output .= '<h4><a href = '.$url.'>'.$name.'</a></h4>';
             $output .= '<h5>Due Date:  '.$duedate.'</h5>';
-            $output .= '<p><span class="small">Note - this is the standard due date for the assignment. If you have an individual extension, that will be reflected on the assignment page itself.</span></p>';
-            $output .= '<p><strong>Number: </strong>'.$a['assessment_number'].'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Weighting: </strong>'.$a['assessment_weight'].'%<br />';
+            $output .= '<p><span class="small">'.get_string('stdduedate', 'theme_uogateen').'</span></p>';
+            $output .= '<p><strong>Number: </strong>'.$a['assessment_number'].
+                '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Weighting: </strong>'.
+                $a['assessment_weight'].'%<br />';
             $output .= '<strong>Type: </strong>'.$a['assessment_type'].'<br />';
             $output .= $brief;
             $output .= '</div>';
@@ -824,7 +915,7 @@ class core_renderer extends \theme_boost\output\core_renderer {
         $output .= '<h4>Useful Links</h4>';
         $output .= '<a href="#" alt="Academic Regulations">Academic Regulations</a>';
         $output .= '</div>';
-        $output .='</div>';
+        $output .= '</div>';
 
         return $output;
     }
@@ -841,8 +932,9 @@ class core_renderer extends \theme_boost\output\core_renderer {
         $modintro = $modaddinfo = $modresource = '';
         // TODO: Check if module guide info exists.
         if (ISSET($PAGE->course->id) && $PAGE->course->id > 1) {
-            $modulecode = substr($PAGE->course->shortname,0,6);
+            $modulecode = substr($PAGE->course->shortname, 0, 6);
             $moduleinsttitle = $PAGE->course->fullname;
+            $modulelink = $PAGE->course->idnumber;
             if ($DB->record_exists('block_modguideform', array('modulecode' => $modulecode))) {
                 $modguideinfo = $DB->get_record('block_modguideform', array('modulecode' => $modulecode));
                 if ($modguideinfo->modintro) {
@@ -851,35 +943,76 @@ class core_renderer extends \theme_boost\output\core_renderer {
                 if ($modguideinfo->modaddinfo) {
                     $modaddinfo = $modguideinfo->modaddinfo;
                 }
-                if ($modguideinfo->modreslist){
+                if ($modguideinfo->modreslist) {
                     $modresource = clean_text($modguideinfo->modreslist);
                 }
             }
-            $modstructure1 = $OUTPUT->moduleguidestructure($PAGE->course->id);
-            $modassess = $OUTPUT->moduleguideassesments();
+            $modval = $OUTPUT->moduleguidevalidated();
+            $year = $school = $credit = $level = $prereq = $coreq = $restrict = '';
+            $desc = $indsyll = $outcome = $learnteach = $specassess = $indres = '';
+            if (isset($modval[$modulelink]['yr'])) {
+                $year = $modval[$modulelink]['yr'];
+            }
+            if (isset($modval[$modulelink]['SCHOOL'])) {
+                $school = $modval[$modulelink]['SCHOOL'];
+            }
+            if (isset($modval[$modulelink]['CREDIT'])) {
+                $credit = $modval[$modulelink]['CREDIT'];
+            }
+            if (isset($modval[$modulelink]['LEVEL'])) {
+                $level = $modval[$modulelink]['LEVEL'];
+            }
+            if (isset($modval[$modulelink]['PREREQ'])) {
+                $prereq = $modval[$modulelink]['PREREQ'];
+            }
+            if (isset($modval[$modulelink]['COREQ'])) {
+                $coreq = $modval[$modulelink]['COREQ'];
+            }
+            if (isset($modval[$modulelink]['RESTRICT'])) {
+                $restrict = $modval[$modulelink]['RESTRICT'];
+            }
+            if (isset($modval[$modulelink]['DESC'])) {
+                $desc = $modval[$modulelink]['DESC'];
+            }
+            if (isset($modval[$modulelink]['INDSYLL'])) {
+                $indsyll = $modval[$modulelink]['INDSYLL'];
+            }
+            if (isset($modval[$modulelink]['OUTCOME'])) {
+                $outcome = $modval[$modulelink]['OUTCOME'];
+            }
+            if (isset($modval[$modulelink]['LEARNTEACH'])) {
+                $learnteach = $modval[$modulelink]['LEARNTEACH'];
+            }
+            if (isset($modval[$modulelink]['SPECASSESS'])) {
+                $specassess = $modval[$modulelink]['SPECASSESS'];
+            }
+            if (isset($modval[$modulelink]['INDRES'])) {
+                $indres = $modval[$modulelink]['INDRES'];
+            }
 
             $moduleguidemodalcontext = [
                 'modulecode' => $modulecode,
                 'moduletitle' => $moduleinsttitle,
                 'modintro' => $modintro,
-                'modval_school' => 'modvalschool',
-                'modval_catpoints' => 'modvalpoints',
-                'modval_level' => 'modvallevel',
-                'modval_prerequ' => 'modvalprerequ',
-                'modval_corequ' => 'modvalcorequ',
-                'modval_restrictions' => 'modvalrestrictions',
-                'modval_desc' => 'modvaldescription',
-                'modval_syll' => 'modvalindicativesyllabus',
-                'modval_lo' => 'modvallearningoutcomes',
-                'modval_activities' => 'modvallearningandteaching',
-                'modval_assessments' => 'modvalassessments',
-                'modval_specass' => 'modvalspecialassessmentrequirements',
-                'modval_resources' => 'modvalindicativeresources',
-                'modstructure' => 'modulestructuregoeshere',
+                'modval_year' => $year,
+                'modval_school' => $school,
+                'modval_catpoints' => $credit,
+                'modval_level' => $level,
+                'modval_prerequ' => $prereq,
+                'modval_corequ' => $coreq,
+                'modval_restrictions' => $restrict,
+                'modval_desc' => $desc,
+                'modval_syll' => $indsyll,
+                'modval_lo' => $outcome,
+                'modval_activities' => $learnteach,
+                'modval_assessments' => '',
+                'modval_specass' => $specassess,
+                'modval_resources' => $indres,
+                'modstructure' => $OUTPUT->moduleguidestructure($PAGE->course->id),
                 'modaddinfo' => $modaddinfo,
-                'modassessments' => $modassess,
+                'modassessments' => $OUTPUT->moduleguideassesments(),
                 'modresource' => $modresource,
-                'modstructurecontent' => $modstructure1,
+                'modstructurecontent' => $OUTPUT->moduleguidestructure($PAGE->course->id),
             ];
 
             return $this->render_from_template('theme_uogateen/moduleguidemodal', $moduleguidemodalcontext);
@@ -985,7 +1118,8 @@ class core_renderer extends \theme_boost\output\core_renderer {
      *
      * @return null|ADONewConnection
      */
-    public function db_init($externaldbtype, $externaldbhost, $externaldbuser, $externaldbpassword, $externaldbname, $externaldbdebugdb=false, $externaldbsetupsql='') {
+    public function db_init($externaldbtype, $externaldbhost, $externaldbuser,
+        $externaldbpassword, $externaldbname, $externaldbdebugdb=false, $externaldbsetupsql='') {
         global $CFG;
         require_once($CFG->libdir.'/adodb/adodb.inc.php');
         // Connect to the external database (forcing new connection).
@@ -1010,7 +1144,7 @@ class core_renderer extends \theme_boost\output\core_renderer {
         }
         return $extdb;
     }
-    public function db_encode($text) {
+    public function db_encode($externaldbencoding, $text) {
         $dbenc = $externaldbencoding;
         if (empty($dbenc) or $dbenc == 'utf-8') {
             return $text;
@@ -1049,10 +1183,10 @@ class core_renderer extends \theme_boost\output\core_renderer {
      * @param  string $default value if config does not exist yet
      * @return string value or default
      */
-/*    public function get_config($name, $default = null) {
+    public function get_config($name, $default = null) {
         $this->load_config();
         return isset($this->config->$name) ? $this->config->$name : $default;
-    } */
+    }
 
     /**
      * Sets plugin config value
@@ -1075,13 +1209,13 @@ class core_renderer extends \theme_boost\output\core_renderer {
      * Makes sure config is loaded and cached.
      * @return void
      */
-/*    public function load_config() {
+    public function load_config() {
         if (!isset($this->config)) {
             $name = $this->get_name();
             $this->config = get_config("local_$name");
         }
     }
-*/
+
     public function db_get_sql_like($table2, array $conditions, array $fields, $distinct = false, $sort = "") {
         $fields = $fields ? implode(',', $fields) : "*";
         $where = array();
@@ -1118,6 +1252,7 @@ class core_renderer extends \theme_boost\output\core_renderer {
             return core_text::convert($text, $dbenc, 'utf-8');
         }
     }
+
     public function db_addslashes($externaldbsybasequoting, $text) {
         // Use custom made function for now - it is better to not rely on adodb or php defaults.
         if ($externaldbsybasequoting) {

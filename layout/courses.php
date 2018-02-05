@@ -41,10 +41,11 @@ if ($navdraweropen) {
 $extraclasses[] = date("Md");
 if ($PAGE->pagelayout == 'course' OR $PAGE->pagelayout == 'incourse') {
     $coursecontext = context_course::instance($COURSE->id);
-    if (substr($USER->email,-11) === '@glos.ac.uk' && isset($COURSE->startdate) && time() < ($COURSE->startdate - (60*60*24*7)) ) {
+    if (substr($USER->email, -11) === '@glos.ac.uk' && isset($COURSE->startdate) &&
+        time() < ($COURSE->startdate - (60 * 60 * 24 * 7)) ) {
         $extraclasses[] = 'staffview';
     }
-    if (isset($COURSE->startdate) && time() < ($COURSE->startdate - (60*60*24*7)) ) {
+    if (isset($COURSE->startdate) && time() < ($COURSE->startdate - (60 * 60 * 24 * 7)) ) {
         $extraclasses[] = 'hiddenpresemester';
     } else {
         $extraclasses[] = 'showforsemester';
@@ -71,7 +72,7 @@ $hassliderfourblocks = strpos($blocksslider4html, 'data-block=') !== false;
 
 $regionmainsettingsmenu = $OUTPUT->region_main_settings_menu();
 
-$modulecode = substr($PAGE->course->shortname,0,6);
+$modulecode = substr($PAGE->course->shortname, 0, 6);
 $modintro = '';
 if ($DB->record_exists('block_modguideform', array('modulecode' => $modulecode))) {
     $modguideinfo = $DB->get_record('block_modguideform', array('modulecode' => $modulecode));

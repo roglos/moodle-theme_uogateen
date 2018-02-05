@@ -247,5 +247,34 @@ section#slider4_blocksmodal {
 }
 
 
-/* Module Guides modal page.
- * ------------------------- */
+/* Hiding content presemester
+ * -------------------------- */
+.hiddenpresemester #region-main-box {display:none;}
+.hiddenpresemester.editing #region-main-box {display:block;}
+.showforsemester .contenthiddenmessage {display:none;}
+
+/* Marking on dashboard not currently supported - needs to wait for the
+ * reworking of the new dashboard block to determine how these are presented */
+#page-my-index.pagelayout-mydashboard .coursebox.hiddenpresemester {
+    opacity:0.4;
+    background:$gray-light;
+}
+#page-my-index.pagelayout-mydashboard .coursebox.hiddenpresemester:before {
+    font-size:85%;
+    font-weight:700;
+    color:$brand-danger;
+    font-family:FontAwesome,'Open Sans','Arial';
+    content:'\f070  This content of this module is currently hidden until the relevant semester starts';
+}
+
+/* Module guide pop up
+ * ------------------- */
+#slider2_blocksmodal .card-block .card {
+    margin-bottom: 1em;
+}
+#slider2_blocksmodal .assesslinks {
+    padding: 1em;
+}
+#slider2_blocksmodal .modguidedivider {
+    border-top: 1px solid $gray;
+}

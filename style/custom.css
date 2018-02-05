@@ -1,12 +1,15 @@
+/* code transferred to SCSS - maintining for testing only
+ * ======================================================*/
+
 /* Hiding content presemester
  * -------------------------- */
-.hiddenpresemester #region-main-box {display:none;}
+/*.hiddenpresemester #region-main-box {display:none;}
 .hiddenpresemester.editing #region-main-box {display:block;}
 .showforsemester .contenthiddenmessage {display:none;}
 
 /* Marking on dashboard not currently supported - needs to wait for the
  * reworking of the new dashboard block to determine how these are presented */
-#page-my-index.pagelayout-mydashboard .coursebox.hiddenpresemester {
+/*#page-my-index.pagelayout-mydashboard .coursebox.hiddenpresemester {
     opacity:0.4;
     background:#e2e2e2;
 }
@@ -20,9 +23,12 @@
 
 /* Module guide pop up
  * ------------------- */
-#slider2_blocksmodal .card-block .card {
+/*#slider2_blocksmodal .card-block .card {
     margin-bottom: 1em;
 }
 #slider2_blocksmodal .assesslinks {
     padding: 1em;
+}
+#slider2_blocksmodal .modguidedivider {
+    border-top: 1px solid #e2e2e2;
 }
