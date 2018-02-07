@@ -30,6 +30,7 @@ Richard
 
 CHANGELOG
 ---------
+3.4.1.2         Beta release of Module Guide component for testing and feedback
 3.4.1.0         Add in semester based hide/reveal from glostest theme
                 Begin development of module guide pop-up page
 3.4.0.0         Secure url settings with PARAM_URL
