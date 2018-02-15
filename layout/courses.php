@@ -72,7 +72,7 @@ $hassliderfourblocks = strpos($blocksslider4html, 'data-block=') !== false;
 
 $regionmainsettingsmenu = $OUTPUT->region_main_settings_menu();
 
-$modulecode = substr($PAGE->course->shortname, 0, 6);
+$modulecode = substr($PAGE->course->idnumber, 0, 6);
 $modintro = '';
 if ($DB->record_exists('block_modguideform', array('modulecode' => $modulecode))) {
     $modguideinfo = $DB->get_record('block_modguideform', array('modulecode' => $modulecode));
