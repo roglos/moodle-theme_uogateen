@@ -314,19 +314,19 @@ class core_renderer extends \theme_boost\output\core_renderer {
         $blocksslider2html = $OUTPUT->blocksmodal('side-slidertwo');
         $blocksslider3html = $OUTPUT->blocksmodal('side-sliderthree');
         $blocksslider4html = $OUTPUT->blocksmodal('side-sliderfour');
-        if (strlen($COURSE->idnumber) > 0) {
-
-/*        (strpos($COURSE->idnumber, 'CRS') != 0
-                                           || strpos($COURSE->idnumber, 'DOM') != 0
-                                           || strpos($COURSE->idnumber, 'SCH') != 0
-                                           || strpos($COURSE->idnumber, 'SUB') != 0
-                                           || strpos($COURSE->idnumber, 'HRCPD') != 0
-                                           || strpos($COURSE->idnumber, 'ADU') != 0
-                                           || strpos($COURSE->idnumber, 'LTI') != 0) ) {   */
+        if (strlen($COURSE->idnumber) > 0 ){
             $hasslidertwoblocks = true;
         } else {
             $hasslidertwoblocks = false;
         }
+        (strpos($COURSE->idnumber, 'CRS') === false)? $hasslidertwoblocks = $hasslidertwoblocks: $hasslidertwoblocks = false;
+        (strpos($COURSE->idnumber, 'DOM') === false)? $hasslidertwoblocks = $hasslidertwoblocks: $hasslidertwoblocks = false;
+        (strpos($COURSE->idnumber, 'SCH') === false)? $hasslidertwoblocks = $hasslidertwoblocks: $hasslidertwoblocks = false;
+        (strpos($COURSE->idnumber, 'SUB') === false)? $hasslidertwoblocks = $hasslidertwoblocks: $hasslidertwoblocks = false;
+        (strpos($COURSE->idnumber, 'HRCPD') === false)? $hasslidertwoblocks = $hasslidertwoblocks: $hasslidertwoblocks = false;
+        (strpos($COURSE->idnumber, 'LTI') === false)? $hasslidertwoblocks = $hasslidertwoblocks: $hasslidertwoblocks = false;
+        (strpos($COURSE->idnumber, 'ADU') === false)? $hasslidertwoblocks = $hasslidertwoblocks: $hasslidertwoblocks = false;
+
         $hassliderthreeblocks = strpos($blocksslider3html, 'data-block=') !== false;
         $hassliderfourblocks = strpos($blocksslider4html, 'data-block=') !== false;
 
@@ -335,10 +335,11 @@ class core_renderer extends \theme_boost\output\core_renderer {
         if (strpos($PAGE->bodyclasses, 'pagelayout-course') > 0) {
             $buttonshtml .= '<button type="button" class="btn btn-warning pageblockbtn" data-toggle="modal"';
             $buttonshtml .= 'data-target="#slider1_blocksmodal"><i class="fa fa-2x fa-cog"></i></button>';
-        }
-        if ($hasslidertwoblocks) {
-            $buttonshtml .= '<button type="button" class="btn btn-danger pageblockbtn" data-toggle="modal"';
-            $buttonshtml .= 'data-target="#slider2_blocksmodal"><i class="fa fa-2x fa-book"></i></i></button>';
+
+            if ($hasslidertwoblocks) {
+                $buttonshtml .= '<button type="button" class="btn btn-danger pageblockbtn" data-toggle="modal"';
+                $buttonshtml .= 'data-target="#slider2_blocksmodal"><i class="fa fa-2x fa-book"></i></i></button>';
+            }
         }
         if ($hassliderthreeblocks) {
             $buttonshtml .= '<button type="button" class="btn btn-info pageblockbtn" data-toggle="modal"';
@@ -895,8 +896,8 @@ class core_renderer extends \theme_boost\output\core_renderer {
             if (isset ($mdlassess->duedate) && $mdlassess->duedate > 0 ) {
                 $duedate = date('Y-m-d H:m', $mdlassess->duedate);
             }
-            if (isset($mdlassess->id)) {
-                $url = new moodle_url('/mod/assign/view.php', array('id' => $mdlassess->id));
+            if (isset($mdlassess->cm)) {
+                $url = new moodle_url('/mod/assign/view.php', array('id' => $mdlassess->cm));
             } else {
                 $url = '#';
             }
