@@ -933,7 +933,7 @@ class core_renderer extends \theme_boost\output\core_renderer {
         $modintro = $modaddinfo = $modresource = '';
         // TODO: Check if module guide info exists.
         if (ISSET($PAGE->course->id) && $PAGE->course->id > 1) {
-            $modulecode = substr($PAGE->course->idnumber, 0, 6);
+            $modulecode = substr($PAGE->course->shortname, 0, 6);
             $moduleinsttitle = $PAGE->course->fullname;
             $modulelink = $PAGE->course->idnumber;
             if ($DB->record_exists('block_modguideform', array('modulecode' => $modulecode))) {
