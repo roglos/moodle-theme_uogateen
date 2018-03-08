@@ -39,15 +39,17 @@
                 {{/moduletitle}}
             </h3>
         </div>
+        <p>To expand and view each section, please click the <span class="fa fa-map-o">&nbsp;</span> icon</p>
         <div class="card-block">
             <div class="row">
                 {{#modintro}}
                     <div class="mg-intro col-md-12">
                     <div class="card">
                         <div class="card-header card-default bg-primary">
-                            <h3 class="card-title">{{#str}}modintrosection, theme_uogateen{{/str}}</h3>
+                            <h3 style="float:left;" class="card-title">{{#str}}modintrosection, theme_uogateen{{/str}}</h3>
+                            <a href="#modintro" data-toggle="collapse" data-target="#modintro" style="float:right; color:#fff; text-decoration:none;" class="fa fa-map-o">&nbsp;</a>
                         </div>
-                        <div class = "card-block">
+                        <div id="modintro" class=" collapse show card-block">
                             {{{modintro}}}
                         </div>
                     </div>
@@ -59,9 +61,10 @@
                     <div class="mg-validated col-md-8">
                     <div class="card ">
                         <div class="card-header card-default bg-primary">
-                            <h3 class="card-title">{{#str}}validatedsectiontitle, theme_uogateen{{/str}}</h3>
+                            <h3 style="float:left;" class="card-title">{{#str}}validatedsectiontitle, theme_uogateen{{/str}}</h3>
+                            <a href="#validated" data-toggle="collapse" data-target="#validated" style="float:right; color:#fff; text-decoration:none;" class="fa fa-map-o">&nbsp;</a>
                         </div>
-                        <div class = "card-block">
+                        <div id = "validated" class = "card-block collapse">
                             <div class="row">
                                 <h4 class="valtitle col-md-3">{{#str}}valtitle, theme_uogateen{{/str}}:</h4>
                                 <h4 class="valdetail col-md-9">{{{moduletitle}}}</h4>
@@ -128,13 +131,15 @@
                     <div class="mg-structure col-md-4">
                     <div class="card">
                         <div class="card-header card-default  bg-primary">
-                            <h3 class="card-title">Module Content</h3>
+                            <h3 style="float:left;" class="card-title">Module Content</h3>
+                            <a href="#modstructurecontent" data-toggle="collapse" data-target="#modstructurecontent" style="float:right; color:#fff; text-decoration:none;" class="fa fa-map-o">&nbsp;</a>
                         </div>
-                        <div class = "card-block">
+                        <div id = "modstructurecontent" class = "card-block collapse">
                             {{#modstructurecontent}} {{{modstructurecontent}}} {{/modstructurecontent}}
-                        </div>
-                        <div class = "card-footer">
-                            <p>Link to Timetabling to go here (possible Collabco dev needed)</p>
+                            <p>Link to Timetabling to go here (possible Collabco dev needed - the link below only works if already logged in to MyDay)</p>
+                            {{#modtimetableurl}}
+                                <a href="{{{modtimetableurl}}}" title="Timetable link">Link to Timetable - MyGlos</a>
+                            {{/modtimetableurl}}
                         </div>
                     </div>
                     </div>
@@ -145,9 +150,10 @@
                     <div class="mg-assessment col-md-12">
                         <div class="card">
                             <div class="card-header card-default bg-primary">
-                                <h3 class="card-title">{{#str}}valassessments, theme_uogateen{{/str}}</h3>
+                                <h3 style="float:left;" class="card-title">{{#str}}valassessments, theme_uogateen{{/str}}</h3>
+                                <a href="#modassessments" data-toggle="collapse" data-target="#modassessments" style="float:right; color:#fff; text-decoration:none;" class="fa fa-map-o">&nbsp;</a>
                             </div>
-                            <div class = "card-block">
+                        <div id = "modassessments" class = "card-block collapse">
                                 {{{modassessments}}}
                                 <h4 class="valtitle col-md-3">{{#str}}valspecass, theme_uogateen{{/str}}:</h4>
                                 <div class="valdetail col-md-9">{{{modval_specass}}}</div>
@@ -161,9 +167,10 @@
                     <div class="mg-addinfo col-md-12">
                     <div class="card">
                         <div class="card-header card-default bg-primary">
-                            <h3 class="card-title">{{#str}}modaddinfo, theme_uogateen{{/str}}</h3>
+                            <h3 style="float:left;" class="card-title">{{#str}}modaddinfo, theme_uogateen{{/str}}</h3>
+                            <a href="#modaddinfo" data-toggle="collapse" data-target="#modaddinfo" style="float:right; color:#fff; text-decoration:none;" class="fa fa-map-o">&nbsp;</a>
                         </div>
-                        <div class = "card-block">
+                        <div id = "modaddinfo" class = "card-block collapse">
                             {{{modaddinfo}}}
                         </div>
                     </div>
@@ -175,9 +182,10 @@
                     <div class="mg-resources col-md-12">
                     <div class="card">
                         <div class="card-header card-default bg-primary">
-                            <h3 class="card-title">{{#str}}valres, theme_uogateen{{/str}}</h3>
+                            <h3 style="float:left;" class="card-title">{{#str}}valres, theme_uogateen{{/str}}</h3>
+                            <a href="#modresource" data-toggle="collapse" data-target="#modresource" style="float:right; color:#fff; text-decoration:none;" class="fa fa-map-o">&nbsp;</a>
                         </div>
-                        <div class = "card-block">
+                        <div id = "modresource" class = "card-block collapse">
                             {{{modresource}}}
                         </div>
                     </div>

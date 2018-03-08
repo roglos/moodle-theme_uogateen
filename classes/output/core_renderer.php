@@ -387,7 +387,7 @@ class core_renderer extends \theme_boost\output\core_renderer {
                 }
             } else if ($region == 'side-slidertwo') {
                 $maintitle = 'Module Guide';
-                $subtitle = 'BETA Release for comment and feedback';
+                $subtitle = '';
                 $blocksmodalusersection .= $OUTPUT->moduleguidemodal();
             }
         }
@@ -882,10 +882,10 @@ class core_renderer extends \theme_boost\output\core_renderer {
                     JOIN {modules} mo ON m.module = mo.id
                 WHERE '.$where;
             $mdlassess = $DB->get_record_sql($sql);
-            $name = $a['assessment_name'];
+            $size = $title = $a['assessment_name'];
             $brief = $duedate = '';
             if (isset($mdlassess->name) && strlen($mdlassess->name) > 0 ) {
-                $name = $mdlassess->name;
+                $title = $mdlassess->name;
             }
             if (isset ($mdlassess->brief) && strlen($mdlassess->brief) > 0 ) {
                 $brief = $mdlassess->brief;
@@ -902,16 +902,19 @@ class core_renderer extends \theme_boost\output\core_renderer {
                 $url = '#';
             }
             $output .= '<div class="assess card card-default bg-light" style="background:#f2f2f2;">';
-            $output .= '<h4><a href = '.$url.'>'.$name.'</a></h4>';
+            $output .= '<h4><a href = '.$url.'>'.$title.'</a></h4>';
             $output .= '<h5>Due Date:  '.$duedate.'</h5>';
             $output .= '<p><span class="small">'.get_string('stdduedate', 'theme_uogateen').'</span></p>';
             $output .= '<p><strong>Number: </strong>'.$a['assessment_number'].
                 '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Weighting: </strong>'.
                 $a['assessment_weight'].'%<br />';
             $output .= '<strong>Type: </strong>'.$a['assessment_type'].'<br />';
+            $output .= '<strong>Requirement: </strong>'.$size.'<br />';
             $output .= $brief;
             $output .= '</div>';
         }
+        $output .= '<h4>Feedback</h4>';
+        $output .= '<p>You will receive a mark and feedback for each piece of coursework. If there is anything that you do not understand about the feedback, please make an appointment to discuss with the Module Tutor. Your assignments and feedback will also be available to your personal tutor, who as part of the meeting each semester will check your understanding of feedback, and help you identify areas and strategies for improvement.</p>';
         $output .= '<div class=" bg-warning assesslinks">';
         $output .= '<h4>Useful Links</h4>';
         $output .= '<a href="#" alt="Academic Regulations">Academic Regulations</a>';
@@ -1014,6 +1017,7 @@ class core_renderer extends \theme_boost\output\core_renderer {
                 'modassessments' => $OUTPUT->moduleguideassesments(),
                 'modresource' => $modresource,
                 'modstructurecontent' => $OUTPUT->moduleguidestructure($PAGE->course->id),
+                'modtimetableurl' => "https://glos.mydaycloud.com/app/collabco.calendar",
             ];
 
             return $this->render_from_template('theme_uogateen/moduleguidemodal', $moduleguidemodalcontext);
