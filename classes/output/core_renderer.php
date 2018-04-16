@@ -942,13 +942,13 @@ class core_renderer extends \theme_boost\output\core_renderer {
             if ($DB->record_exists('block_modguideform', array('modulecode' => $modulecode))) {
                 $modguideinfo = $DB->get_record('block_modguideform', array('modulecode' => $modulecode));
                 if ($modguideinfo->modintro) {
-                    $modintro = clean_text($modguideinfo->modintro);
+                    $modintro = $modguideinfo->modintro;
                 }
                 if ($modguideinfo->modaddinfo) {
                     $modaddinfo = $modguideinfo->modaddinfo;
                 }
                 if ($modguideinfo->modreslist) {
-                    $modresource = clean_text($modguideinfo->modreslist);
+                    $modresource = $modguideinfo->modreslist;
                 }
             }
             $modval = $OUTPUT->moduleguidevalidated();
