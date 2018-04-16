@@ -933,7 +933,7 @@ class core_renderer extends \theme_boost\output\core_renderer {
      */
     public function moduleguidemodal() {
         global $PAGE, $DB, $CFG, $OUTPUT, $COURSE;
-        $modintro = $modaddinfo = $modresource = '';
+        $modintro = $modaddinfo = $modresource = null;
         // TODO: Check if module guide info exists.
         if (ISSET($PAGE->course->id) && $PAGE->course->id > 1) {
             $modulecode = substr($PAGE->course->idnumber, 0, 6);
@@ -944,10 +944,10 @@ class core_renderer extends \theme_boost\output\core_renderer {
                 if ($modguideinfo->modintro) {
                     $modintro = $modguideinfo->modintro;
                 }
-                if ($modguideinfo->modaddinfo) {
+                if ($modguideinfo->modaddinfo && strlen($modguideinfo->modaddinfo) !=0) {
                     $modaddinfo = $modguideinfo->modaddinfo;
                 }
-                if ($modguideinfo->modreslist) {
+                if ($modguideinfo->modreslist && strlen($modguideinfo->modreslist) != 0) {
                     $modresource = $modguideinfo->modreslist;
                 }
             }
