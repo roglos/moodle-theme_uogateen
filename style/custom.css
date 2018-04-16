@@ -32,3 +32,12 @@
 #slider2_blocksmodal .modguidedivider {
     border-top: 1px solid #e2e2e2;
 }
+*/
+
+.assesslist .assess.card {
+    margin:0;
+    padding:1.5em;
+}
+.assesslinks {
+    padding: 1em 1.5em;
+}
