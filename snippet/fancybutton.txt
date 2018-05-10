@@ -1,0 +1,1 @@
+{"name":"Fancy Button","key":"fancybutton","instructions":"Choose a style, enter the link URL, and button caption","defaults":"style=primary|secondary|success|danger|warning|info|,url=#,caption=\"click me\"","body":"<a href=\"{{url}}\" class='btn btn-{{style}}'>{{caption}}</a>","version":"1.1.0"}

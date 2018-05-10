@@ -1,0 +1,1 @@
+{"name":"Alert","key":"alert","instructions":"Choose a style, afontawesome4 icon, a title and text for the alert","defaults":"style=danger|warning|success|info,icon=bullhorn,title=\"A title\",text=\"Alert text\"","body":"<div class='alert alert-{{style}}' role='alert'><strong><i class='fa fa-{{icon}}'>&nbsp</i>{{title}} </strong> {{text}}</div> ","version":"1.0.0"}

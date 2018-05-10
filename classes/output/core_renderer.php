@@ -893,18 +893,25 @@ class core_renderer extends \theme_boost\output\core_renderer {
                 $brief = '<span class="text-danger">'.get_string('assignmentnotlinked',
                     'theme_uogateen').'</span>';
             }
-            if (isset ($mdlassess->duedate) && $mdlassess->duedate > 0 ) {
-                $duedate = date('Y-m-d H:m', $mdlassess->duedate);
+            if (isset ($mdlassess->gradingduedate) && $mdlassess->gradingduedate > 0 ) {
+                $gradingduedate = date('d M Y', $mdlassess->gradingduedate);
+                $gradingduedate .= ' 9am';
             }
+            if (isset ($mdlassess->duedate) && $mdlassess->duedate > 0 ) {
+                $duedate = date('d M Y', $mdlassess->duedate);
+                $duedate .= ' 6pm';
+            }
+
             if (isset($mdlassess->cm)) {
                 $url = new moodle_url('/mod/assign/view.php', array('id' => $mdlassess->cm));
             } else {
                 $url = '#';
             }
             $output .= '<div class="assess card card-default bg-light" style="background:#f2f2f2;">';
-            $output .= '<h4><a href = '.$url.'>'.$title.'</a></h4>';
-            $output .= '<h5>Due Date:  '.$duedate.'</h5>';
+            $output .= '<h3><a href = '.$url.'>'.'Element: '.$a['assessment_number'].'- '.$title.'</a></h3>';
+            $output .= '<h4>Due Date:  '.$duedate.'</h4>';
             $output .= '<p><span class="small">'.get_string('stdduedate', 'theme_uogateen').'</span></p>';
+            $output .= '<p><strong>Feedback Return Date: </strong>'.$gradingduedate.'</p>';
             $output .= '<p><strong>Number: </strong>'.$a['assessment_number'].
                 '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Weighting: </strong>'.
                 $a['assessment_weight'].'%<br />';

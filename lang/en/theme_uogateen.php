@@ -235,12 +235,12 @@ $string['vallo'] = 'Learning Outcomes';
 $string['vallt'] = 'Learning and Teaching Activities';
 $string['valspecass'] = 'Special Assessment Requirements';
 $string['valres'] = 'Module Resources';
-$string['validatedsectiontitle'] = 'Validated Details';
+$string['validatedsectiontitle'] = 'Module Descriptor';
 $string['contentsectiontitle'] = 'Module Content Structure';
-$string['valassessments'] = 'Module Assessments';
+$string['valassessments'] = 'Module Assessment';
 $string['modaddinfo'] = 'Additional Information';
 $string['assignmentnotlinked'] = 'This assignment is not yet linked between SITS and Moodle.';
-$string['stdduedate'] = 'Note - this is the standard due date for the assignment. If you have an individual extension, that will be reflected on the assignment page itself.';
+$string['stdduedate'] = 'Note - If this is an assignment, this is the standard due date. If you have an individual extension, that will be reflected on the assignment page itself.<br>If this is an exam, this date is the first day of Exam Week. The actual date of your exam will be publish through MyGlos around four weeks in advance.';
 
 // External database connection strings.
 $string['externaldbtype'] = 'mysqli';
