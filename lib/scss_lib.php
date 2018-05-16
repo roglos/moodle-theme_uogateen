@@ -46,6 +46,9 @@ function theme_uogateen_get_main_scss_content($theme) {
     global $CFG;
 
     $scss = '';
+
+    $scss .= file_get_contents($CFG->dirroot . '/theme/uogateen/scss/defaultvariables.scss');
+
     $filename = !empty($theme->settings->preset) ? $theme->settings->preset : null;
     $fs = get_file_storage();
 
@@ -72,8 +75,9 @@ function theme_uogateen_get_main_scss_content($theme) {
         }
     }
 
-    return $scss;
-}
+    $scss .= file_get_contents($CFG->dirroot . '/theme/uogateen/scss/styles.scss');
+
+    return $scss;}
 
 /**
  * Get SCSS to prepend.
