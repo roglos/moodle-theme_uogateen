@@ -306,10 +306,15 @@ class core_renderer extends \theme_boost\output\core_renderer {
 
         $buttonshtml = '';
         $buttonshtml .= '<div class="blockmodalbuttons">';
-        if (strpos($PAGE->bodyclasses, 'pagelayout-course') > 0) {
-            $buttonshtml .= '<button type="button" class="btn btn-warning pageblockbtn" data-toggle="modal"';
-            $buttonshtml .= 'data-target="#slider1_blocksmodal"><i class="fa fa-2x fa-cog"></i></button>';
-
+        if (isloggedin() && ISSET($COURSE->id) && $COURSE->id > 1) {
+            $course = $this->page->course;
+            $context = context_course::instance($course->id);
+            if (has_capability('moodle/course:viewhiddenactivities', $context)) {
+                if (strpos($PAGE->bodyclasses, 'pagelayout-course') > 0) {
+                    $buttonshtml .= '<button type="button" class="btn btn-warning pageblockbtn" data-toggle="modal"';
+                    $buttonshtml .= 'data-target="#slider1_blocksmodal"><i class="fa fa-2x fa-cog"></i></button>';
+                }
+            }
             if ($hasslidertwoblocks) {
                 $buttonshtml .= '<button type="button" class="btn btn-danger pageblockbtn" data-toggle="modal"';
                 $buttonshtml .= 'data-target="#slider2_blocksmodal"><i class="fa fa-2x fa-book"></i></i></button>';
@@ -880,24 +885,32 @@ class core_renderer extends \theme_boost\output\core_renderer {
             } else {
                 $url = '#';
             }
-            $output .= '<div class="assess card card-default bg-light" style="background:#f2f2f2;">';
-            $output .= '<h3><a href = '.$url.'>'.'Element: '.$a['assessment_number'].'- '.$title.'</a></h3>';
-            $output .= '<h4>Due Date:  '.$duedate.'</h4>';
-            $output .= '<p><span class="small">'.get_string('stdduedate', 'theme_uogateen').'</span></p>';
+            $output .= '<div class="assess card bg-light">';
+            $output .= '<h4><a href = '.$url.'>'.'Element: '.$a['assessment_number'].'- '.$title.'</a></h4>';
+            $output .= '<h6>Due Date:  '.$duedate.'</h6>';
             $output .= '<p><strong>Feedback Return Date: </strong>'.$gradingduedate.'</p>';
+            $output .= '<p><span class="card bg-secondary small">'.get_string('stdduedate', 'theme_uogateen');
+            if (strpos($a['assessment_type'], "Exam: End of") > 0) {
+                $output .= '<br>'.get_string('examdate', 'theme_uogateen');
+            }
+            $output .= '</span></p>';
             $output .= '<p><strong>Number: </strong>'.$a['assessment_number'].
                 '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Weighting: </strong>'.
                 $a['assessment_weight'].'%<br />';
             $output .= '<strong>Type: </strong>'.$a['assessment_type'].'<br />';
-            $output .= '<strong>Requirement: </strong>'.$size.'<br />';
+            $output .= '<strong>Requirement: </strong>'.$size.'<br /><br />';
+            $output .= '<strong>Assessment Brief</strong>';
             $output .= $brief;
             $output .= '</div>';
         }
-        $output .= '<h4>Feedback</h4>';
+        $output .= '<h5>Feedback</h5>';
         $output .= '<p>You will receive a mark and feedback for each piece of coursework. If there is anything that you do not understand about the feedback, please make an appointment to discuss with the Module Tutor. Your assignments and feedback will also be available to your personal tutor, who as part of the meeting each semester will check your understanding of feedback, and help you identify areas and strategies for improvement.</p>';
         $output .= '<div class=" bg-warning assesslinks">';
-        $output .= '<h4>Useful Links</h4>';
+        $output .= '<h4>Essential Links</h4>';
         $output .= '<a href="#" alt="Academic Regulations">Academic Regulations</a>';
+        $output .= '<h4>Useful Links</h4>';
+        $output .= '<a href="#" alt="Submission advice">Submission advice</a>';
+
         $output .= '</div>';
         $output .= '</div>';
 
@@ -964,6 +977,9 @@ class core_renderer extends \theme_boost\output\core_renderer {
             if (isset($modval[$modulelink]['OUTCOME'])) {
                 $outcome = $modval[$modulelink]['OUTCOME'];
             }
+            if (isset($modval[$modulelink]['ASSESS'])) {
+                $valassess = $modval[$modulelink]['ASSESS'];
+            }
             if (isset($modval[$modulelink]['LEARNTEACH'])) {
                 $learnteach = $modval[$modulelink]['LEARNTEACH'];
             }
@@ -988,6 +1004,7 @@ class core_renderer extends \theme_boost\output\core_renderer {
                 'modval_desc' => $desc,
                 'modval_syll' => $indsyll,
                 'modval_lo' => $outcome,
+                'modval_assess' => $valassess,
                 'modval_activities' => $learnteach,
                 'modval_assessments' => '',
                 'modval_specass' => $specassess,

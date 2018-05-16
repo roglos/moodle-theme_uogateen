@@ -63,12 +63,12 @@ $blocksslider2html = $OUTPUT->blocksmodal('side-slidertwo');
 $blocksslider3html = $OUTPUT->blocksmodal('side-sliderthree');
 $blocksslider4html = $OUTPUT->blocksmodal('side-sliderfour');
 
-$haspreblocks = strpos($preblockshtml, 'data-block=') !== false;
-$hastopblocks = strpos($topblockshtml, 'data-block=') !== false;
-$hasslideroneblocks = strpos($blocksslider1html, 'data-block=') !== false;
-$hasslidertwoblocks = strpos($blocksslider2html, 'data-block=') !== false;
-$hassliderthreeblocks = strpos($blocksslider3html, 'data-block=') !== false;
-$hassliderfourblocks = strpos($blocksslider4html, 'data-block=') !== false;
+$haspreblocks = strpos($preblockshtml, 'data-block') !== false;
+$hastopblocks = strpos($topblockshtml, 'data-block') !== false;
+$hasslideroneblocks = strpos($blocksslider1html, 'data-block') !== false;
+$hasslidertwoblocks = strpos($blocksslider2html, 'data-block') !== false;
+$hassliderthreeblocks = strpos($blocksslider3html, 'data-block') !== false;
+$hassliderfourblocks = strpos($blocksslider4html, 'data-block') !== false;
 
 $regionmainsettingsmenu = $OUTPUT->region_main_settings_menu();
 

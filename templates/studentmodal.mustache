@@ -44,9 +44,9 @@
 {{#hascourseinfogroup}}
     <div class="card">
         <div class="card-header card-primary">
-            <h3 class="card-title">
+            <h5 class="card-title">
                 <i class="fa fa-{{{icon}}}">&nbsp</i>{{{title}}}
-            </h3>
+            </h5>
         </div>
         <div class="card-block">
             {{#courseinfo}}
@@ -59,17 +59,17 @@
 {{#hascoursestaffgroup}}
     <div class="card">
         <div class="card-header card-primary">
-            <h3 class="card-title">
+            <h5 class="card-title">
                 <i class="fa fa-{{{icon}}}">&nbsp</i>{{{title}}}
-            </h3>
+            </h5>
         </div>
         <div class="card-block">
             {{#courseteachers}}
-                <h3>Course Leader</h3>
+                <h5>Course Leader</h5>
                 <div class="staffmember">
                     {{{picture}}}
                     <div class="staffinfo">
-                        <h4>{{{name}}}</h4>
+                        <h6>{{{name}}}</h6>
                         <p>{{{description}}}</p>
                         <p><a href="mailto:{{{email}}}"><i class="fa fa-envelope-o">&nbsp</i>{{{email}}}</a></p>
                         <p><i class="fa fa-phone">&nbsp</i>{{{phone}}}</p>
@@ -78,11 +78,11 @@
             {{/courseteachers}}
             {{#courseother}}
                 <p><br></p>
-                <h3>Course Staff</h3>
+                <h5>Course Staff</h5>
                 <div class="staffmember">
                     {{{picture}}}
                     <div class="staffinfo">
-                        <h4>{{{name}}}</h4>
+                        <h6>{{{name}}}</h6>
                         <p>{{{description}}}</p>
                         <p><a href="mailto:{{{email}}}"><i class="fa fa-envelope-o">&nbsp</i>{{{email}}}</a></p>
                         <p><i class="fa fa-phone">&nbsp</i>{{{phone}}}</p>
@@ -97,9 +97,9 @@
 {{#hasstulinksgroup}}
     <div class="card">
         <div class="card-header card-primary">
-            <h3 class="card-title">
+            <h5 class="card-title">
                 <i class="fa fa-{{{icon}}}">&nbsp</i>{{{title}}}
-            </h3>
+            </h5>
         </div>
         <div class="card-block">
             <ul class="list-group">

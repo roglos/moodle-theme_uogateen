@@ -32,12 +32,12 @@
 {{#modulecode}}
     <div class="card">
         <div class="card-header card-warning bg-warning">
-            <h3 class="card-title">
+            <h6 class="card-title">
                 {{{modulecode}}}
                 {{#moduletitle}}
                     {{{moduletitle}}}
                 {{/moduletitle}}
-            </h3>
+            </h6>
         </div>
         <p>To expand and view each section, please click the <span class="fa fa-map-o">&nbsp;</span> icon</p>
         <div class="card-block">
@@ -45,8 +45,8 @@
                 {{#modintro}}
                     <div class="mg-intro col-md-12">
                     <div class="card">
-                        <div class="card-header card-default bg-primary">
-                            <h3 style="float:left;" class="card-title">{{#str}}modintrosection, theme_uogateen{{/str}}</h3>
+                        <div class="card-header text-light bg-primary">
+                            <h5 style="float:left;" class="card-title">{{#str}}modintrosection, theme_uogateen{{/str}}</h5>
                             <a href="#modintro" data-toggle="collapse" data-target="#modintro" style="float:right; color:#fff; text-decoration:none;" class="fa fa-map-o">&nbsp;</a>
                         </div>
                         <div id="modintro" class=" collapse show card-block">
@@ -60,67 +60,72 @@
                 {{#modval_level}}
                     <div class="mg-validated col-md-12">
                     <div class="card ">
-                        <div class="card-header card-default bg-primary">
-                            <h3 style="float:left;" class="card-title">{{#str}}validatedsectiontitle, theme_uogateen{{/str}}</h3>
+                        <div class="card-header text-light bg-primary">
+                            <h5 style="float:left;" class="card-title">{{#str}}validatedsectiontitle, theme_uogateen{{/str}}</h5>
                             <a href="#validated" data-toggle="collapse" data-target="#validated" style="float:right; color:#fff; text-decoration:none;" class="fa fa-map-o">&nbsp;</a>
                         </div>
                         <div id = "validated" class = "card-block collapse">
                             <div class="row">
-                                <h4 class="valtitle col-md-3">{{#str}}valtitle, theme_uogateen{{/str}}:</h4>
-                                <h4 class="valdetail col-md-9">{{{moduletitle}}}</h4>
+                                <h6 class="valtitle col-md-3">{{#str}}valtitle, theme_uogateen{{/str}}:</h6>
+                                <h6 class="valdetail col-md-9">{{{moduletitle}}}</h6>
                             </div>
                             <div class="row">
-                                <h4 class="valtitle col-md-3">{{#str}}valmc, theme_uogateen{{/str}}:</h4>
-                                <h4 class="valdetail col-md-4">{{{modulecode}}}</h4>
-                                <h4 class="valtitle col-md-3">{{#str}}valyear, theme_uogateen{{/str}}:</h4>
-                                <h4 class="valdetail col-md-2">{{{modval_year}}}</h4>
+                                <h6 class="valtitle col-md-3">{{#str}}valmc, theme_uogateen{{/str}}:</h6>
+                                <h6 class="valdetail col-md-4">{{{modulecode}}}</h6>
+                                <h6 class="valtitle col-md-3">{{#str}}valyear, theme_uogateen{{/str}}:</h6>
+                                <h6 class="valdetail col-md-2">{{{modval_year}}}</h6>
                             </div>
                             <div class="row modguidedivider">
                                 <p><br></p>
                             </div>
                             <div class="row">
-                                <h4 class="valtitle col-md-3">{{#str}}valschool, theme_uogateen{{/str}}:</h4>
+                                <h6 class="valtitle col-md-3">{{#str}}valschool, theme_uogateen{{/str}}:</h6>
                                 <div class="valdetail col-md-9">{{{modval_school}}}</div>
                             </div>
                             <div class="row">
                             </div>
                             <div class="row">
-                                <h4 class="valtitle col-md-3">{{#str}}vallevel, theme_uogateen{{/str}}:</h4>
+                                <h6 class="valtitle col-md-3">{{#str}}vallevel, theme_uogateen{{/str}}:</h6>
                                 <div class="valdetail col-md-4">{{{modval_level}}}</div>
-                                <h4 class="valtitle col-md-3">{{#str}}valcat, theme_uogateen{{/str}}:</h4>
+                                <h6 class="valtitle col-md-3">{{#str}}valcat, theme_uogateen{{/str}}:</h6>
                                 <div class="valdetail col-md-2">{{{modval_catpoints}}}</div>
                             </div>
                             <div class="row">
-                                <h4 class="valtitle col-md-3">{{#str}}valpre, theme_uogateen{{/str}}:</h4>
+                                <h6 class="valtitle col-md-3">{{#str}}valpre, theme_uogateen{{/str}}:</h6>
                                 <div class="valdetail col-md-9">{{{modval_prerequ}}}</div>
                             </div>
                             <div class="row">
-                                <h4 class="valtitle col-md-3">{{#str}}valco, theme_uogateen{{/str}}:</h4>
+                                <h6 class="valtitle col-md-3">{{#str}}valco, theme_uogateen{{/str}}:</h6>
                                 <div class="valdetail col-md-9">{{{modval_corequ}}}</div>
                             </div>
                             <div class="row">
-                                <h4 class="valtitle col-md-3">{{#str}}valrestrict, theme_uogateen{{/str}}:</h4>
+                                <h6 class="valtitle col-md-3">{{#str}}valrestrict, theme_uogateen{{/str}}:</h6>
                                 <div class="valdetail col-md-9">{{{modval_restrictions}}}</div>
                             </div>
                             <p><br></p>
                             <div class="row">
-                                <h4 class="valtitle col-md-3">{{#str}}valdesc, theme_uogateen{{/str}}:</h4>
+                                <h6 class="valtitle col-md-3">{{#str}}valdesc, theme_uogateen{{/str}}:</h6>
                                 <div class="valdetail col-md-9">{{{modval_desc}}}</div>
                             </div>
                             <div class="row">
-                                <h4 class="valtitle col-md-3">{{#str}}valsyl, theme_uogateen{{/str}}:</h4>
+                                <h6 class="valtitle col-md-3">{{#str}}valsyl, theme_uogateen{{/str}}:</h6>
                                 <div class="valdetail col-md-9">{{{modval_syll}}}</div>
                             </div>
                             <div class="row">
-                                <h4 class="valtitle col-md-3">{{#str}}vallo, theme_uogateen{{/str}}:</h4>
+                                <h6 class="valtitle col-md-3">{{#str}}vallo, theme_uogateen{{/str}}:</h6>
                                 <div class="valdetail col-md-9">{{{modval_lo}}}</div>
                             </div>
                             <div class="row">
-                                <h4 class="valtitle col-md-3">{{#str}}vallt, theme_uogateen{{/str}}:</h4>
+                                <h6 class="valtitle col-md-3">{{#str}}valassessments, theme_uogateen{{/str}}:</h6>
+                                <div class="valdetail col-md-9">{{{modval_assess}}}</div>
+                            </div>
+
+                            <div class="row">
+                                <h6 class="valtitle col-md-3">{{#str}}vallt, theme_uogateen{{/str}}:</h6>
                                 <div class="valdetail col-md-9">{{{modval_activities}}}</div>
                             </div>
                             <div class="row">
-                                <h4 class="valtitle col-md-3">{{#str}}valspecass, theme_uogateen{{/str}}:</h4>
+                                <h6 class="valtitle col-md-3">{{#str}}valspecass, theme_uogateen{{/str}}:</h6>
                                 <div class="valdetail col-md-9">{{{modval_specass}}}</div>
                             </div>
                         </div>
@@ -132,8 +137,8 @@
                 {{#modstructure}}
                     <div class="mg-structure col-md-12">
                     <div class="card">
-                        <div class="card-header card-default  bg-primary">
-                            <h3 style="float:left;" class="card-title">Module Content</h3>
+                        <div class="card-header text-light  bg-primary">
+                            <h5 style="float:left;" class="card-title">Module Content</h5>
                             <a href="#modstructurecontent" data-toggle="collapse" data-target="#modstructurecontent" style="float:right; color:#fff; text-decoration:none;" class="fa fa-map-o">&nbsp;</a>
                         </div>
                         <div id = "modstructurecontent" class = "card-block collapse">
@@ -151,8 +156,8 @@
                 {{#modassessments}}
                     <div class="mg-assessment col-md-12">
                         <div class="card">
-                            <div class="card-header card-default bg-primary">
-                                <h3 style="float:left;" class="card-title">{{#str}}valassessments, theme_uogateen{{/str}}</h3>
+                            <div class="card-header text-light bg-primary">
+                                <h5 style="float:left;" class="card-title">{{#str}}valassessments, theme_uogateen{{/str}}</h5>
                                 <a href="#modassessments" data-toggle="collapse" data-target="#modassessments" style="float:right; color:#fff; text-decoration:none;" class="fa fa-map-o">&nbsp;</a>
                             </div>
                         <div id = "modassessments" class = "card-block collapse">
@@ -166,8 +171,8 @@
                 {{#modaddinfo}}
                     <div class="mg-addinfo col-md-12">
                     <div class="card">
-                        <div class="card-header card-default bg-primary">
-                            <h3 style="float:left;" class="card-title">{{#str}}modaddinfo, theme_uogateen{{/str}}</h3>
+                        <div class="card-header text-light bg-primary">
+                            <h5 style="float:left;" class="card-title">{{#str}}modaddinfo, theme_uogateen{{/str}}</h5>
                             <a href="#modaddinfo" data-toggle="collapse" data-target="#modaddinfo" style="float:right; color:#fff; text-decoration:none;" class="fa fa-map-o">&nbsp;</a>
                         </div>
                         <div id = "modaddinfo" class = "card-block collapse">
@@ -181,8 +186,8 @@
                 {{#modresource}}
                     <div class="mg-resources col-md-12">
                     <div class="card">
-                        <div class="card-header card-default bg-primary">
-                            <h3 style="float:left;" class="card-title">{{#str}}valres, theme_uogateen{{/str}}</h3>
+                        <div class="card-header text-light bg-primary">
+                            <h5 style="float:left;" class="card-title">{{#str}}valres, theme_uogateen{{/str}}</h5>
                             <a href="#modresource" data-toggle="collapse" data-target="#modresource" style="float:right; color:#fff; text-decoration:none;" class="fa fa-map-o">&nbsp;</a>
                         </div>
                         <div id = "modresource" class = "card-block collapse">
