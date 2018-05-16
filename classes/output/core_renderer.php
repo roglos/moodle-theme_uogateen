@@ -857,7 +857,7 @@ class core_renderer extends \theme_boost\output\core_renderer {
                 WHERE '.$where;
             $mdlassess = $DB->get_record_sql($sql);
             $size = $title = $a['assessment_name'];
-            $brief = $duedate = '';
+            $brief = $duedate = $gradingduedate = '';
             if (isset($mdlassess->name) && strlen($mdlassess->name) > 0 ) {
                 $title = $mdlassess->name;
             }
@@ -875,7 +875,6 @@ class core_renderer extends \theme_boost\output\core_renderer {
                 $duedate = date('d M Y', $mdlassess->duedate);
                 $duedate .= ' 6pm';
             }
-
             if (isset($mdlassess->cm)) {
                 $url = new moodle_url('/mod/assign/view.php', array('id' => $mdlassess->cm));
             } else {
