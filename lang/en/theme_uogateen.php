@@ -35,6 +35,7 @@ $string['region-side-sliderone'] = 'Course management';
 $string['region-side-slidertwo'] = 'Block-Slider2';
 $string['region-side-sliderthree'] = 'Block-Slider3';
 $string['region-side-sliderfour'] = 'Block-Slider4';
+$string['privacy:metadata'] = 'The UoGateen theme does not store any individual user data.';
 
 $string['generalsettings'] = 'General settings';
 $string['advancedsettings'] = 'Advanced settings';
@@ -256,3 +257,4 @@ $string['externaldbpassword'] = 'xxxxx';
 $string['sourcetableassessments'] = 'usr_data_assessments';
 $string['sourcetablevalidated'] = 'usr_guide_details';
 $string['modulemappingtable'] = 'usr_modulesite_mapping';
+

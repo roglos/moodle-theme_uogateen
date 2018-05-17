@@ -345,6 +345,15 @@ class mod_assign_renderer extends \mod_assign_renderer {
             }
 
         }
+                if ($summary->cutoffdate) {
+                    // Cut off date.
+                    $row = new html_table_row();
+                    $row->attributes['class'] = 'feedbackduedate';
+                    $cell1 = new html_table_cell(/*get_string('cutoffdate', 'assign')*/'Planned feedback return date');
+                    $cell2 = new html_table_cell(userdate($summary->cutoffdate));
+                    $row->cells = array($cell1, $cell2);
+                    $t->data[] = $row;
+                }
 
         // All done - write the table.
         $o .= html_writer::table($t);
