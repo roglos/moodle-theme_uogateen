@@ -355,6 +355,7 @@ table,
 .navbar {
     background:url([[pix:theme|colourbars]]) repeat-x;
     padding-top:6px;
+    padding-left: 20px;
 
     & .navbar-brand,
     & .navbar-nav,
@@ -364,6 +365,10 @@ table,
     & a {
         color: $white;
     }
+}
+.nav-link {
+    display: block;
+    padding: .35rem 1rem;
 }
 .navbar-brand{
   display:none !important;
@@ -379,10 +384,16 @@ table,
   width: 100%;
   border-radius: 0;
 }
+.breadcrumb {
+    margin-left: 0;
+}
 /* Nav Drawer.
  * ----------- */
 [data-region="drawer"] {
     background-color: rgba(0, 171, 191, 0.05);
+    & .list-group-item {
+        padding-left: 1em;
+    }
 }
 /* Page header.
  * ------------ */
@@ -390,12 +401,12 @@ header#page-header {
   & .card {
     border-radius: 0;
       & .cardwrapper {
-        background:url([[pix:theme|glo]]) no-repeat top right;
+        background:url([[pix:theme|GlosLearningOnlineSystems]]) no-repeat top right;
         padding-right: 11px;
         padding-top: 2.75rem;
       }
       & .card-body {
-          padding: 0 1.25rem 1.25rem 1.25rem;
+          padding: 0 0 1.25rem 1.25rem;
       }
   }
   & .page-header-headings h1 {

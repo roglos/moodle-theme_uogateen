@@ -44,8 +44,9 @@
 }}
 
 {{#hassocialnetworks}}
-    <div class="socials_wrapper">
-        <ul class="socials">
+    <div class="socials_wrapper row">
+      <div class="col-md-auto colpadding">&nbsp;</div>
+        <ul class="col-md-auto socials ">
             {{#socialicons}}
                 {{#haslink}}
                     <a href = {{{haslink}}} class = "socialicon blog" title = "{{{haslink}}}" alt="{{{haslink}}}">
@@ -57,7 +58,7 @@
                     </a>
                 {{/haslink}}
             {{/socialicons}}
-
         </ul>
+      <div class="col-md-auto colpadding">&nbsp;</div>
     </div>
 {{/hassocialnetworks}}

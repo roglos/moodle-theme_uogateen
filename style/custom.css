@@ -41,3 +41,5 @@
 #slider2_blocksmodal .assesslinks {
     padding: 1em 1.5em;
 }
+#page-footer .container {max-width:100%;}
+.col-md-auto.colpadding { flex: 2 0 auto; }
