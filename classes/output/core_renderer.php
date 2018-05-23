@@ -852,9 +852,10 @@ class core_renderer extends \theme_boost\output\core_renderer {
             $output .= 'There are no assessments currently recorded for this module instance.';
         }
         $output .= '<div class="assesslist">';
+
         foreach ($assessments as $a) {
             $idcode = $a['assessment_idcode'];
-            $where = "m.idnumber = '".$idcode."' AND m.idnumber != '' AND mo.name = 'assign'";
+            $where = "m.idnumber = '".$idcode."' AND m.idnumber != ''";
             $sql = 'SELECT a.id as id,m.id as cm, m.idnumber as
                 linkcode,a.duedate,a.gradingduedate, a.name as name, a.intro as brief FROM {course_modules} m
                     JOIN {assign} a ON m.instance = a.id
