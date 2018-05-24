@@ -43,11 +43,12 @@ if ($PAGE->pagelayout == 'course' OR $PAGE->pagelayout == 'incourse') {
     if (substr($USER->email, -11) === '@glos.ac.uk' && isset($COURSE->startdate) &&
         time() < ($COURSE->startdate - (60 * 60 * 24 * 7)) ) {
         $extraclasses[] = 'staffview';
-    }
-    if (isset($COURSE->startdate) && time() < ($COURSE->startdate - (60 * 60 * 24 * 7)) ) {
-        $extraclasses[] = 'hiddenpresemester';
     } else {
-        $extraclasses[] = 'showforsemester';
+        if (isset($COURSE->startdate) && time() < ($COURSE->startdate - (60 * 60 * 24 * 7)) ) {
+            $extraclasses[] = 'hiddenpresemester';
+        } else {
+            $extraclasses[] = 'showforsemester';
+        }
     }
 } else {
     $extraclasses[] = 'showforsemester';

@@ -383,7 +383,27 @@ table,
 .contenthiddenmessage.alert {
   width: 100%;
   border-radius: 0;
+  display:none;
 }
+/* Hiding content presemester
+ * -------------------------- */
+.hiddenpresemester .contenthiddenmessage.alert,
+.staffview .contenthiddenmessage.alert {
+    display:block;
+}
+.hiddenpresemester #region-main-box,
+.hiddenpresemester #nav-drawer {
+    display:none;
+}
+.hiddenpresemester #region-main-box,
+.hiddenpresemester #nav-drawer {
+    display:none;
+}
+#page-my-index.pagelayout-mydashboard .coursebox.hiddenpresemester {
+    opacity:0.4;
+    background:#e2e2e2;
+}
+
 .breadcrumb {
     margin-left: 0;
 }
