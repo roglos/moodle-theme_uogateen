@@ -76,15 +76,15 @@ $font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace !def
 $font-family-base:        $font-family-sans-serif !default;
 
 $font-size-base:          1.063rem !default;
-$font-size-lg:            ceil(($font-size-base * 1.25)) !default; // ~18px
-$font-size-sm:            ceil(($font-size-base * 0.85)) !default; // ~12px
-$font-size-vsm:           ceil(($font-size-base * 0.688)) !default;
-$h1-font-size:            floor(($font-size-base * 2.6)) !default; // ~36px
-$h2-font-size:            floor(($font-size-base * 2.15)) !default; // ~30px
-$h3-font-size:            ceil(($font-size-base * 1.7)) !default; // ~24px
-$h4-font-size:            ceil(($font-size-base * 1.25)) !default; // ~18px
+$font-size-lg:            ($font-size-base * 1.25) !default; // ~18px
+$font-size-sm:            ($font-size-base * 0.85) !default; // ~12px
+$font-size-vsm:           ($font-size-base * 0.688) !default;
+$h1-font-size:            ($font-size-base * 2.6) !default; // ~36px
+$h2-font-size:            ($font-size-base * 2.15) !default; // ~30px
+$h3-font-size:            ($font-size-base * 1.7) !default; // ~24px
+$h4-font-size:            ($font-size-base * 1.25) !default; // ~18px
 $h5-font-size:            $font-size-base !default;
-$h6-font-size:            ceil(($font-size-base * 0.85)) !default; // ~12px
+$h6-font-size:            ($font-size-base * 0.85) !default; // ~12px
 
 
 $headings-font-weight:        700 !default;

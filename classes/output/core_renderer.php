@@ -315,9 +315,11 @@ class core_renderer extends \theme_boost\output\core_renderer {
                     $buttonshtml .= 'data-target="#slider1_blocksmodal"><i class="fa fa-2x fa-cog"></i></button>';
                 }
             }
-            if ($hasslidertwoblocks) {
-                $buttonshtml .= '<button type="button" class="btn btn-danger pageblockbtn" data-toggle="modal"';
-                $buttonshtml .= 'data-target="#slider2_blocksmodal"><i class="fa fa-2x fa-book"></i></i></button>';
+            if (strpos($PAGE->bodyclasses, 'pagelayout-course') > 0) {
+                if ($hasslidertwoblocks) {
+                    $buttonshtml .= '<button type="button" class="btn btn-danger pageblockbtn" data-toggle="modal"';
+                    $buttonshtml .= 'data-target="#slider2_blocksmodal"><i class="fa fa-2x fa-book"></i></i></button>';
+                }
             }
         }
         if ($hassliderthreeblocks) {

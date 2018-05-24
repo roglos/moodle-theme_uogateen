@@ -173,9 +173,7 @@ $string['studentlinkurldesc'] = '';
 $string['studentlinkicon'] = 'Student link FA icon name';
 $string['studentlinkicondesc'] = '';
 
-// External Database settings.
-$string['extdb_settings'] = 'External Database settings';
-$string['extdbdesc'] = 'Settings page for links to external integrations database';
+$string['contenthidden'] = 'This module content will be released to students 7 days before the beginning of the semester it applies to.';
 
 // Modal sliders.
 $string['defaultmodaltitle'] = 'Side-Blocks page';
@@ -245,6 +243,11 @@ $string['stdduedate'] = '<em>Note - If this is an assignment, these are the stan
 $string['examdate'] = '<em>If this is an exam, this date is the first day of Exam Week. The actual date of your exam will be publish through MyGlos around four weeks in advance.</em>';
 
 // External database connection strings.
+
+// External Database settings.
+$string['extdb_settings'] = 'External Database settings';
+$string['extdbdesc'] = 'Settings page for links to external integrations database';
+
 $string['externaldbtype'] = 'mysqli';
 $string['externaldbhost'] = 'localhost';
 $string['externaldbname'] = 'integrations';
