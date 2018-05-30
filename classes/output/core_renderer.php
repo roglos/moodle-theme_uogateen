@@ -746,7 +746,7 @@ class core_renderer extends \theme_boost\output\core_renderer {
             echo 'Error while communicating with external database <br>';
             return 1;
         }
-        // Get external table name.
+
         $course = $DB->get_record('course', array('id' => $COURSE->id));
         $assessments = array();
         $validated = array();
@@ -828,7 +828,7 @@ class core_renderer extends \theme_boost\output\core_renderer {
             echo 'Error while communicating with external database <br>';
             return 1;
         }
-        // Get external table name.
+
         $course = $DB->get_record('course', array('id' => $COURSE->id));
         $assessments = array();
         if ($course->idnumber) {
@@ -858,11 +858,19 @@ class core_renderer extends \theme_boost\output\core_renderer {
         foreach ($assessments as $a) {
             $idcode = $a['assessment_idcode'];
             $where = "m.idnumber = '".$idcode."' AND m.idnumber != ''";
-            $sql = 'SELECT a.id as id,m.id as cm, m.idnumber as
+            if (strpos($a['assessment_type'], "Exam: In-class") > 0) {
+                $sql = 'SELECT q.id as id,m.id as cm, m.idnumber as
+                linkcode, q.timeclose as duedate, null as gradingduedate, q.name as name, q.intro as brief FROM {course_modules} m
+                    JOIN {quiz} q ON m.instance = q.id
+                    JOIN {modules} mo ON m.module = mo.id
+                WHERE '.$where;
+            } else {
+                $sql = 'SELECT a.id as id,m.id as cm, m.idnumber as
                 linkcode,a.duedate,a.gradingduedate, a.name as name, a.intro as brief FROM {course_modules} m
                     JOIN {assign} a ON m.instance = a.id
                     JOIN {modules} mo ON m.module = mo.id
                 WHERE '.$where;
+            }
             $mdlassess = $DB->get_record_sql($sql);
             $size = $title = $a['assessment_name'];
             $brief = $duedate = $gradingduedate = '';
@@ -880,8 +888,12 @@ class core_renderer extends \theme_boost\output\core_renderer {
                 $gradingduedate .= ' 9am';
             }
             if (isset ($mdlassess->duedate) && $mdlassess->duedate > 0 ) {
-                $duedate = date('d M Y', $mdlassess->duedate);
-                $duedate .= ' 6pm';
+                if (strpos($a['assessment_type'], "Exam: End of") > 0 || strpos($a['assessment_type'], "Exam: In-class") > 0) {
+                    $duedate = date('d M Y', $mdlassess->duedate);
+                } else {
+                    $duedate = date('d M Y', $mdlassess->duedate);
+                    $duedate .= ' 6pm';
+                }
             }
             if (isset($mdlassess->cm)) {
                 $url = new moodle_url('/mod/assign/view.php', array('id' => $mdlassess->cm));
@@ -890,11 +902,14 @@ class core_renderer extends \theme_boost\output\core_renderer {
             }
             $output .= '<div class="assess card bg-light">';
             $output .= '<h4><a href = '.$url.'>'.'Element: '.$a['assessment_number'].'- '.$title.'</a></h4>';
-            $output .= '<h6>Due Date:  '.$duedate.'</h6>';
+            $output .= '<p><strong>Due Date:  '.$duedate.'</p></strong>';
             $output .= '<p><strong>Feedback Return Date: </strong>'.$gradingduedate.'</p>';
             $output .= '<p><span class="card bg-secondary small">'.get_string('stdduedate', 'theme_uogateen');
             if (strpos($a['assessment_type'], "Exam: End of") > 0) {
                 $output .= '<br>'.get_string('examdate', 'theme_uogateen');
+            }
+            if (strpos($a['assessment_type'], "Exam: In-class") > 0) {
+                $output .= '<br>'.get_string('quizdate', 'theme_uogateen');
             }
             $output .= '</span></p>';
             $output .= '<p><strong>Number: </strong>'.$a['assessment_number'].
@@ -905,9 +920,13 @@ class core_renderer extends \theme_boost\output\core_renderer {
             $output .= '<strong>Assessment Brief</strong>';
             $output .= $brief;
             $output .= '</div>';
+            $output .= '<p><br></p>';
         }
-        $output .= '<h5>Feedback</h5>';
-        $output .= '<p>You will receive a mark and feedback for each piece of coursework. If there is anything that you do not understand about the feedback, please make an appointment to discuss with the Module Tutor. Your assignments and feedback will also be available to your personal tutor, who as part of the meeting each semester will check your understanding of feedback, and help you identify areas and strategies for improvement.</p>';
+        $output .= get_string('modguidesubmissions', 'theme_uogateen');
+        $output .= get_string('modguidefeedback', 'theme_uogateen');
+        $output .= get_string('modguidealternative', 'theme_uogateen');
+        $output .= get_string('modguideregulations', 'theme_uogateen');
+
         $output .= '<div class=" bg-warning assesslinks">';
         $output .= '<h4>Essential Links</h4>';
         $output .= '<a href="#" alt="Academic Regulations">Academic Regulations</a>';

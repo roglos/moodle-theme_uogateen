@@ -403,6 +403,13 @@ class mod_assign_renderer extends \mod_assign_renderer {
             $row->cells = array($cell1, $cell2);
             $t->data[] = $row;
 
+            $row = new html_table_row();
+            $row->attributes['class'] = 'fbgrade';
+            $cell1 = '';
+            $cell2 = new html_table_cell(get_string('provisionalgrade', 'theme_uogateen'));
+            $row->cells = array($cell1, $cell2);
+            $t->data[] = $row;
+
             // Grade date.
             $row = new html_table_row();
             $row->attributes['class'] = 'fbgradedate';
